@@ -1,7 +1,7 @@
 <p align="center">
 <a href="https://laravel.com" target="_blank">
 <img src="https://lh3.googleusercontent.com/JZzSlX4NAOHLVrwERiEve64r-dexpPryUqVU1gKnZYKtgMt50CvybA74HZZJwFMY8_ab_g=s85" width="100px" ></a>
-<h1><span style="color:royalblue">Websoft</span>-pay</h1>
+<h1 align="center"><span style="color:royalblue !important">Websoft</span>-pay</h1>
 </p>
 
 <p align="center">
