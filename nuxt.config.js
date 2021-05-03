@@ -9,7 +9,8 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
+      { rel: 'shortcut icon', type: 'image/x-icon', href: '/icon.png' }
+       
     ]
   },
   pwa: {
@@ -40,9 +41,8 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    "@/plugins/bootstrap",
-    "@/plugins/app",
+  plugins: [ 
+    "@/plugins/app",   
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,22 +61,56 @@ export default {
     // https://go.nuxtjs.dev/bootstrap
     // 'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    '@nuxtjs/axios', 
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     // '@nuxt/content',
+    '@nuxtjs/proxy',
+    '@nuxtjs/auth-next', 
+     
   ],
-
+  proxy: {
+     "/api":"http://localhost:8000"
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
-
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'en'
+  axios: {
+      proxy:true,
+  },
+  auth: { 
+    redirect: {
+      login: "/auth/signin",
+      logout: "/auth/signin",
+      home: "/dashboard",
+      callback: "/callback"
+    },
+    strategies: {  
+        'laravelJWT': {
+          scheme: 'refresh',
+          url: 'http://localhost:8000',
+          endpoints: {
+            login: { url: "/api/auth/signin", method: "post", propertyName: "access_token" }, 
+            logout: { url: "/api/auth/signout", method: "post" },
+            user: { url: "/api/auth/me", method: "get", propertyName: "user" },    
+            refresh: { url: '/api/auth/refresh', method: 'post' },
+          },
+          token: {
+            property: 'access_token',
+            maxAge: 20160 * 60
+          },
+          refreshToken: {
+            property: 'refresh_token',
+            data: 'refresh_token',
+            maxAge:20160 * 60
+          } 
+         
+        }, 
     }
   },
+  router: {
+    middleware: ['auth']
+  },
+   
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},

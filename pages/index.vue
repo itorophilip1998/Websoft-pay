@@ -1,14 +1,14 @@
 <template>
     <div>
-         <mfooter/>
+        
+         <mfooter/> 
     </div>
 </template>
 
 <script>
 import mfooter from '@/components/mobilefooter' 
 export default {
-    //   auth: false,
-
+    auth: false, 
    components:
    {
        mfooter

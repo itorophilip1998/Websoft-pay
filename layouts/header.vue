@@ -10,8 +10,14 @@
         </strong>
         </span>
         </span> 
-        <!-- {{ $nuxt.$route.path }} -->
-         
+
+        <div  class="dropdown d-md-none d-inline ml-auto"  v-if="$auth.loggedIn && activeClick"> 
+          <i class="fa fa-user text-info link p-2" aria-hidden="true"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i> 
+            <div class="dropdown-menu logoutPanel p-0 rounded-l" aria-labelledby="my-dropdown"> 
+              <span @click="logoutMe()" class="dropdown-item  text-center link py-3 rounded-l logoutItems" href="#">logout</span>
+            </div>
+          </div> 
+
         <button v-if="activeClick" @click="activeClick=!activeClick" class="navbar-toggler d-lg-none border-0" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation">
           <span class="fa fa-bars"></span>
@@ -20,10 +26,10 @@
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="fa fa-close"></span> 
         </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <div  class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <span  class="nav-link link" @click="urlget('/dashboard')">Home</span>
+              <span  class="nav-link link" @click="urlget('/dashboard')">{{($auth.loggedIn)? "Dashboard" : "Home"}}</span>
             </li>
 
             <li class="nav-item dropdown">
@@ -45,9 +51,18 @@
               <span class="nav-link link" @click="urlget('/#about')">About</span>
             </li> 
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+          <form class="form-inline my-2 my-lg-0" v-if="!$auth.loggedIn">
             <span @click="urlget('/auth/signup')" class="btn btn-p shadow-sm rounded-l  btn-outline-info my-2 my-sm-0 btn-sm mx-1 rounded-lg" >Signup</span>
             <span @click="urlget('/auth/signin')" class="btn btn-p shadow-sm  rounded-l btn-info my-2 my-sm-0 btn-sm mx-1 rounded-lg" >Signin</span>
+          </form>
+          <form v-else>
+          <div class="dropdown d-none d-md-inline"> 
+          <i class="fa fa-user text-info link p-2" aria-hidden="true"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i> 
+            <div class="dropdown-menu logoutPanel p-0 rounded-l" aria-labelledby="my-dropdown"> 
+              <span @click="$auth.logout()" class="dropdown-item  text-center link py-3 rounded-l logoutItems" href="#">logout</span>
+            </div>
+          </div>
+           
           </form>
         </div>
       </nav>
@@ -61,6 +76,10 @@ export default {
     }
   },
   methods: {
+    logoutMe(){ 
+       this.activeClick==false
+      this.$auth.logout()
+    },
      urlget(data)
      { 
       let collapsibleNavId= document.getElementById('collapsibleNavId') 

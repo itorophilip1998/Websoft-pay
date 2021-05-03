@@ -1,3 +1,17 @@
+ .logoutPanel
+ {
+     left: -120px !important;
+ }
+.logoutPanel>.dropdown-item:hover
+{
+ background-color:whitesmoke !important;
+ color:rgb(104, 100, 100) !important;
+}
+input.form-control:disabled, input.form-control[readonly],input[readonly]
+{
+     background-color: #17a2b8 !important;
+     color: rgba(245, 245, 245, 0.931) !important;
+}
 .logo{
     width: 40px;
 }
@@ -6,17 +20,17 @@ button,a{
 }
 .form-control{
 color:rgba(59, 58, 58, 0.788) !important;
-    
+
 }
 .password-check
 {
     position: absolute;
     margin-top: -30px;
     right: 30px;
-} 
+}
 @media screen and (min-width: 992px) {
 .password-check
-{ 
+{
     right: 60px !important;
 }
 }
@@ -25,39 +39,45 @@ button.btn-p{
 
 }
 p{
-    text-align: justify 
+    text-align: justify
 }
 
 input.form-control:focus{
      box-shadow:none  !important;
-     color:#17a2b8 !important;
-
-     
+     color:#17a2b8;  
 }
  
+.tmuted{
+    color: rgb(207, 205, 205);
+}
+.bmuted{
+    background: rgb(207, 205, 205);
+
+}
+
 .overlay{
     width: 100%;
     height:100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.3);
 }
  .bgload{
-    background-image: url('~assets/images/share1.jpg');
+    background-image: url('~assets/images/bigImg.jpg');
     background-size: cover;
     height: 100vh;
  }
 ::-webkit-input-placeholder
  {
-     color:rgb(158, 158, 158) !important; 
+     color:rgb(158, 158, 158) !important;
  }
 li{
-list-style: none !important; 
+list-style: none !important;
 }
  .link{
  cursor: pointer;
  }
 .rounded-l{
     border-radius: 8px !important;
-} 
+}
 .nav-link:hover,.dropdown-item:hover{
 color:#17a2b8 !important;
 font-weight: 500 !important;
@@ -74,3 +94,57 @@ color:#5c6668 !important;
  ::-webkit-scrollbar{
     display: none;
  }
+
+ .loader-page{
+   position: absolute;
+   width: 100% !important;
+   height: 100vh !important; 
+   background-color: rgba(0,0,0,0.6);
+   z-index: 10 !important; 
+   text-align: center;
+   padding-top: 20%;
+ }
+ .loader-page>.spinner-border{
+    border: ridge #ebeeee 6px; 
+    width: 100px;
+    height:100px;
+    animation: 1.50s linear infinite spinner-border !important;
+    border-bottom: none !important;
+ }
+ .swal2-show { 
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.300)!important;
+    border-top:1px solid silver;
+    top: -60px;
+ }
+ @media all and (display-mode: standalone) {
+    body {
+      background-color: #17a2b8 ;
+    }
+  } 
+
+  .classList,.dropdown-item:active,.dropdown-item:focus
+ {
+    background:#e0e9eb !important;
+    color: #17a2b8 !important; 
+    border-left:10px solid #17a2b8 !important;  
+    font-weight: bold;
+
+ }
+   
+.swal2-icon.swal2-error [class^=swal2-x-mark-line]{ 
+    background-color: #cc3712b7 !important;
+}
+.swal2-icon.swal2-error{
+    border-color: #db391025 !important;
+} 
+.swal2-icon.swal2-success [class^=swal2-success-line] { 
+    background-color: #17a3b8ab !important;
+}
+.swal2-icon.swal2-success,.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: #17a3b81e !important;
+} 
+ 
+.modal.show .modal-dialog { 
+    top: 100px;
+    transition: transform .7s ease-out; 
+}

@@ -1,8 +1,16 @@
 <template>
     <div class="pt-5 ">
+      <loader v-if="loading"/>
       <div class="row m-0">
-        <div class="col-md-5  px-lg-5 pt-md-5 mt-lg-3   rounded-lg py-4">
-            <form @submit.prevent="verify()">
+        <div class="col-md-5  px-lg-5 pt-md-5 mt-lg-3   rounded-lg py-4" >
+           <div class="alert alert-primary alert-dismissible fade show" role="alert" v-if="message">
+            
+            <strong><i class="fa fa-bell-o text-info" aria-hidden="true"></i> Hello {{ details.email }}!</strong> We have send a reset link to your email address 📩.<br>
+            <hr>
+            I didn`t receive it <button @click="verify()"  class="btn btn-sm btn-info link rounded-lg">Resent</button>
+          </div>
+
+            <form @submit.prevent="verify()" v-if="!message">
             <h6 class="text-info">Verify Your Email</h6>    
             <div class="form-group ">
                 <label for=""><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</label>
@@ -34,22 +42,50 @@
       </div>  
     </div>
 </template>
-<script> 
+<script>   
+  import loader from '@/components/loader'
 export default { 
-    // auth: 'guest', 
+    auth: 'guest',
+    components:{ 
+        loader
+    },
     data() {
         return {
             passwordCheckData:false,
             details:{ 
                 email:'' 
             },
-            error:[]
+            error:[],
+            loading:false,
+            message:false
+
         }
+    },
+    mounted() {
+       this.details.email=window.location.hash.slice(1)
     },
     methods: {
         verify()
         { 
-             
+          let email=this.details.email
+          this.loading=!this.loading
+            this.$router.push(`#${email}`)
+            this.$axios.post(`/api/auth/password/email`,{
+             email:email
+             })
+            .then((res)=> {  
+             this.loading=!this.loading
+             this.message=true
+
+            })
+            .catch((error)=> { 
+          this.loading=!this.loading
+             this.message=true
+
+            if (error.response.status == 422) {
+              this.error = error.response.data.errors; 
+            } 
+            })
         }
     }
 }
