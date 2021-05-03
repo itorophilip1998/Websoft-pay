@@ -8,15 +8,37 @@
                  <div class="row"> 
                      <div class="col-12  p-3 "> 
                         <div class="inactive">
-                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    <span class="sr-only">Close</span>
-                                </button>
-                                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                            <div class="alert alert-warning text-left fade show" role="alert"> 
+                                <strong><i class="fa fa-bell-o" aria-hidden="true"></i> Account Update:</strong> Please your account is not activated and you cannot make transactions... 
+                                <a class="link text-dark d-block d-md-inline" data-toggle="modal"
+                                  data-target="#activate"> <u>Activate now</u></a> 
+                                <!-- Activate -->
+                                <div class="modal fade" id="activate" tabindex="-1" role="dialog"
+                                  aria-labelledby="modelTitleId" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-body">
+                                        <form @submit.prevent="makePayment()">
+                                          <div class="border-0 text-dark">
+                                            <span>Transaction Pin <small class="text-danger">*</small></span> 
+                                          <input type="text"
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            maxlength="4" minlength="4"
+                                            class="form-control p-4"   v-model.number="amount" placeholder="Secure Pin(4 digits. e.g 1234) for every transaction"
+                                           >
+                                          <small id="errorNetwork" class="form-text text-danger" >Poor/No Internet Connection... try again</small>
+                                          </div>
+                                          <button type="submit" class="btn btn-info btn-sm mt-2 rounded-l shadow"
+                                            v-if="btn">Add Money</button>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
                             </div>
                         </div>
-
+{{ $auth.user.accounts }}
                          <h6 class="text-info">Hello <span class="text-muted text-capitalize font-italic">{{ $auth.user.name }}</span> 😎</h6>
                         <div class="money border shadow  bg-info rounded-l p-2 pl-3 pb-md-3">
                          <small class="tmuted">Wallet Balance </small> 
@@ -27,7 +49,7 @@
                             <button  @click="$router.push('/services/redraw')" class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
                         </div> 
                         
-                        <!-- Modal -->
+                        <!-- Topup -->
                         <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content"> 
@@ -44,6 +66,7 @@
                                 </div>
                             </div>
                         </div>
+                        
 
                    </div> 
                    <div class="col-12   mt-3 "> 
