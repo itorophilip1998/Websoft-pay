@@ -71,7 +71,8 @@ export default {
      
   ],
   proxy: {
-     "/api":"http://localhost:8000"
+     "/api":"http://localhost:8000",
+     "/v3":"https://api.flutterwave.com"
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

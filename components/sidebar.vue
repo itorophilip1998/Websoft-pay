@@ -38,41 +38,63 @@ export default {
             let electricity=document.getElementById("electricity") 
             let remitta=document.getElementById("remitta") 
             let issues=document.getElementById("issues") 
-            let settings=document.getElementById("settings") 
+            let settings=document.getElementById("settings")
+
+            let mdashboard=document.getElementById("mdashboard") 
+            let mtransfer=document.getElementById("mtransfer") 
+            let mredraw=document.getElementById("mredraw") 
+            let mairtime=document.getElementById("mairtime") 
+            let mdata=document.getElementById("mdata") 
+            let mtv=document.getElementById("mtv") 
+            let melectricity=document.getElementById("melectricity") 
+            let mremitta=document.getElementById("mremitta") 
+            let missues=document.getElementById("missues") 
+            let msettings=document.getElementById("msettings") 
 
             switch (routes) {
                 case '/dashboard':
                 dashboard.classList.add('classList','shadow-sm') 
+                mdashboard.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/transfer':
                 transfer.classList.add('classList','shadow-sm') 
+                mtransfer.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/redraw':
                 redraw.classList.add('classList','shadow-sm') 
+                mredraw.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/airtime':
                 airtime.classList.add('classList','shadow-sm') 
+                mairtime.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/data':
                 data.classList.add('classList','shadow-sm') 
+                mdata.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/tv':
                 tv.classList.add('classList','shadow-sm') 
+                mtv.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/electricity':
                 electricity.classList.add('classList','shadow-sm') 
+                melectricity.classList.add('mclassList','shadow-sm') 
                     break; 
                 case '/services/remitta':
                 remitta.classList.add('classList','shadow-sm') 
+                mremitta.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/services/electricity':
                 electricity.classList.add('classList','shadow-sm') 
+                melectricity.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/issues':
                 issues.classList.add('classList','shadow-sm') 
+                missues.classList.add('mclassList','shadow-sm') 
                     break;
                 case '/settings':
                 settings.classList.add('classList','shadow-sm') 
+                msettings.classList.add('classList','shadow-sm') 
                     break; 
                 default:
                     break;

@@ -41,15 +41,10 @@
       </div>  
     </div>
 </template>
-<script>
-    import terms from '@/components/terms'
-    import loader from '@/components/loader'
+<script> 
 export default { 
     auth: 'guest',
-    components:{
-        terms,
-        loader
-    },
+  
      
     mounted() {
        document.getElementById('a').focus(); 

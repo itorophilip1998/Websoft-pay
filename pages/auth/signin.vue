@@ -74,14 +74,10 @@
     </div>
 </template>
 <script>
-    import terms from '@/components/terms'
-    import loader from '@/components/loader'
+    
 export default { 
     auth: "guest",
-    components:{
-        terms,
-        loader
-    },
+   
     data() {
         return {
             passwordCheckData:false,

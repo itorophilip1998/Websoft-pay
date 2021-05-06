@@ -6,45 +6,87 @@
              </div>
              <div class="col-md-7 p-md-3 px-lg-5 mr-auto  ">
                  <div class="row"> 
-                     <div class="col-12  p-3 "> 
-                        <div class="inactive">
+                     <div class="col-12  p-3 ">  
+                        <div class="inactive" v-if="!account_status">
                             <div class="alert alert-warning text-left fade show" role="alert"> 
                                 <strong><i class="fa fa-bell-o" aria-hidden="true"></i> Account Update:</strong> Please your account is not activated and you cannot make transactions... 
                                 <a class="link text-dark d-block d-md-inline" data-toggle="modal"
-                                  data-target="#activate"> <u>Activate now</u></a> 
-                                <!-- Activate -->
-                                <div class="modal fade" id="activate" tabindex="-1" role="dialog"
-                                  aria-labelledby="modelTitleId" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-body">
-                                        <form @submit.prevent="makePayment()">
-                                          <div class="border-0 text-dark">
-                                            <span>Transaction Pin <small class="text-danger">*</small></span> 
-                                          <input type="text"
-                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                            maxlength="4" minlength="4"
-                                            class="form-control p-4"   v-model.number="amount" placeholder="Secure Pin(4 digits. e.g 1234) for every transaction"
-                                           >
-                                          <small id="errorNetwork" class="form-text text-danger" >Poor/No Internet Connection... try again</small>
-                                          </div>
-                                          <button type="submit" class="btn btn-info btn-sm mt-2 rounded-l shadow"
-                                            v-if="btn">Add Money</button>
-                                        </form>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                  data-target="#activate"> <u>Activate now</u></a>  
 
                             </div>
-                        </div>
-{{ $auth.user.accounts }}
+                        </div> 
+                         <!-- Account Update -->
+                         <div class="modal fade" id="activate" tabindex="-1" role="dialog"
+                         aria-labelledby="modelTitleId" aria-hidden="true">
+                         <div class="modal-dialog" role="document">
+                           <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="my-modal-title">Account Details</h6>
+                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                             <div class="modal-body">
+                               <form @submit.prevent="updateAccount()">
+                                 <div class="border-0 text-dark pb-2">
+                                   <span>Transaction Pin <small class="text-danger">*</small></span> 
+                                 <input type="password"
+                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                   maxlength="4" minlength="4"   class="form-control p-3 border-info" v-model.number="accounts.transaction_pin" placeholder="Secure Pin(4 digits) not bank pin" >
+                                 <small id="errorNetwork" class="form-text text-danger" v-if="error.transaction_pin">{{ error.transaction_pin[0] }}</small>
+                                 </div>
+
+                                 <div class="border-0 text-dark pb-2">
+                                   <span>Phone Number <small class="text-danger">*</small></span>  
+                                 <input type="text"   class="form-control p-3 border-info" v-model="accounts.phone" placeholder="" >
+                                 <small id="errorNetwork" class="form-text text-danger"   v-if="error.phone">{{ error.phone[0] }}</small>
+                                 </div> 
+
+                                 <div class="border-0 text-dark pb-2">
+                                   <span>Account Number </span>  
+                                 <input type="text" @input="validateBank()" maxlength="10" minlength="10"  class="form-control p-3 border-info" v-model="accounts.account_number" placeholder="Your bank account number" >
+                                 <small id="errorNetwork" class="form-text text-danger"    v-if="error.account_number">{{ error.account_number[0] }}</small>
+                                 </div> 
+                                 <div class="border-0 text-dark pb-1"> 
+                                   <div class="form-group m-0">  
+                                       <label for="my-select">Bank Name <small class="text-danger">*</small> 
+                                       <div v-if="bankLoading" class="spinner-border text-info border-1" style="width: 1rem !important;height:1rem !important;" role="status">
+                                           <span class="sr-only">Loading...</span>
+                                       </div>
+                                       <small v-if="bankError" @click="getBanks()" class="fa fa-refresh link text-info" aria-hidden="true"></small>
+                                       </label>
+                                       <select id="my-select" @change="validateBank()" v-model="selectedBanks"   class="form-control link border-info" name="" >
+                                           <option value="">
+                                               Select Bank
+                                           </option>
+                                           <option  :value="item" v-for="(item, index) in banks" :key="index">
+                                               {{ item.name }}
+                                           </option>
+                                       </select>
+                                   </div>
+                                   <div class="border-0 text-info p-0" >  
+                                       <small v-if="accounts.account_name">{{ accounts.account_name }} </small> 
+                                       <div v-if="validateAccLoading" class="spinner-border text-info border-1" style="width: 1rem !important;height:1rem !important;" role="status">
+                                           <span class="sr-only">Loading...</span>
+                                       </div>
+                                       <small @click="" v-if="validateAccErr" class="text-danger">Can`t resolve accounts details... try again <i class="fa fa-refresh link text-info" aria-hidden="true"></i></small> 
+                                </div> 
+                                </div>  
+                                 <button v-if="accounts.bank_name" type="submit" class="btn btn-info btn-sm mt-2 rounded-l shadow">Save Accounts</button>
+                               </form>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
                          <h6 class="text-info">Hello <span class="text-muted text-capitalize font-italic">{{ $auth.user.name }}</span> 😎</h6>
                         <div class="money border shadow  bg-info rounded-l p-2 pl-3 pb-md-3">
-                         <small class="tmuted">Wallet Balance </small> 
-                         <i v-if="seeMoney" @click="moneyCheck('show')" class="fa fa-eye tmuted link" aria-hidden="true"></i>
-                         <i v-if="!seeMoney" @click="moneyCheck('hide')" class="fa fa-eye-slash tmuted link" aria-hidden="true"></i>
-                             <input type="text" ref="money" :value="'₦'+$auth.user.accounts.account_balance+' .00'" class="form-control  border-0 moneyText pl-0" readonly > 
+                         <div class="top" >
+                            <small class="tmuted">Wallet Balance </small> 
+                            <i v-if="seeMoney" @click="moneyCheck('show')" class="fa fa-eye  link" aria-hidden="true" style="color:rgb(225, 228, 230);"></i>
+                            <i v-if="!seeMoney" @click="moneyCheck('hide')" class="fa fa-eye-slash  link" aria-hidden="true" style="color:rgb(225, 228, 230);"></i>
+                            <i data-toggle="modal"  data-target="#activate" class="fa fa-pencil text-white link float-right p-2" aria-hidden="true"></i>
+                         </div>
+                            <input type="text" ref="money" :value="'₦'+ currencyFormat($auth.user.accounts.account_balance)" class="form-control  border-0 moneyText pl-0" readonly > 
                             <button data-toggle="modal" data-target="#modelId" class="btn btn-info btn-sm topup  shadow rounded-l w-25">Top-up</button>
                             <button  @click="$router.push('/services/redraw')" class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
                         </div> 
@@ -58,7 +100,7 @@
                                         <div class="border-0"> 
                                             <span>Amount(₦)</span> 
                                         </div>
-                                        <input  type="number" id="amount" min="1" step="1" class="form-control p-4" v-model.number="amount" placeholder="₦100 above, e.g(10000)" @input="getAmount()"> 
+                                        <input  type="number" autocomplete="off" id="amount" min="1" step="1" class="form-control p-4 border-info" v-model.number="amount" placeholder="₦100 above..." @input="getAmount()"> 
                                          <small id="errorNetwork" class="form-text text-danger " style="display: none;">Poor/No Internet Connection... try again</small>  
                                         <button type="submit" class="btn btn-info btn-sm mt-2 rounded-l shadow" v-if="btn">Add Money</button>
                                         </form>
@@ -69,27 +111,57 @@
                         
 
                    </div> 
-                   <div class="col-12   mt-3 "> 
+                   <div class="col-12   mt-3 pb-5 mb-5">  
                     <div class="transaction shadow border-info bg-info text-white border rounded-lg">
                         <h6 class="text-white border-white bg-info   border-bottom p-2 text-center">Transaction Details</h6>
                          <table class="table  text-center text-dark " >
                              <thead  >
-                                 <tr scope="row">
+                                 <tr scope="row" style="color: rgba(0, 0, 0, 0.555);">
                                      <th scope="col">Beneficiary</th>
                                      <th scope="col">Type</th> 
                                      <th scope="col">Date</th>
                                  </tr>
                              </thead>
                              <tbody>
-                                 <tr class="link text-white">
-                                     <td class="text-center  tmuted"><small><b>089278625752</b></small></td>
-                                     <td class="text-center"><small>airtime</small></td> 
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
-                                 </tr>
-                                 <tr class="link text-white">
-                                     <td class="text-center text-warning"><small><b>09078925673</b></small></td>
-                                     <td class="text-center"><small>Data</small></td> 
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
+                                 <tr class="ink paid" v-for="(item, index) in transactions" :key="index">
+                                     <td class="text-center link"  data-toggle="modal" :data-target="`#trans-${item.id}`">
+                                        <small><b> 
+                                         <span v-if="item.status_from_transaction!='paid'">
+                                              <s style='color:rgb(243, 9, 9)'>
+                                                <span style='color:rgb(224, 217, 217)' >{{ item.beneficiary }}</span>
+                                              </s>
+                                        </span>
+                                         <span v-else>{{ item.beneficiary }}</span>
+                                        </b></small>
+                                      <!-- transactions -->  
+                                <div class="modal fade text-dark" :id="`trans-${item.id}`" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content"> 
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="my-modal-title">{{ item.beneficiary }}</h6>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                               <ul class='text-left pl-0 ml-0'>
+                                                   <li><b>refNo:</b> {{ item.reference_no }}</li> 
+                                                   <li><b>amount:</b> {{ currencyFormat(item.amount) }}</li> 
+                                                   <li><b>status_from_transaction:</b> {{ item.status_from_transaction }}</li> 
+                                                   <li><b>status:</b> {{ item.status }}</li> 
+                                                   <li><b>transaction_id:</b> {{ item.transaction_id }}</li> 
+                                                   <li><b>transaction_type:</b> {{ item.transaction_type }}</li> 
+                                                   <li><b>date:</b> {{ fulltime(item.created_at) }}</li> 
+                                                   <li><b>status_from_user:</b> <br><span class=" d-block p-1">{{ item.status_from_user }}</span></li> 
+
+                                               </ul>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                    </td>
+                                     <td class="text-center"><small>{{ item.transaction_type }}</small></td> 
+                                     <td class="text-center"><small><i>{{ timer(item.created_at) }}</i></small></td>  
                                  </tr> 
                              </tbody>  
                          </table> 
@@ -103,8 +175,9 @@
 </template>
 
 <script>
-import mfooter from '@/components/mobilefooter' 
-import sidebar from '@/components/sidebar' 
+import mfooter from '@/components/mobilefooter';
+import sidebar from '@/components/sidebar';
+import moment from 'moment'; 
 export default {
 //   auth:false,
    components:
@@ -116,12 +189,118 @@ export default {
        return { 
         seeMoney:false,
         btn:false,
-        amount:''
-       }
+        validateAccErr:false,
+        validateAccLoading:false,
+        amount:'',
+        bankLoading:false,
+        accounts:{
+            user_id:this.$auth.user.id,
+            account_type:"individual",
+            transaction_pin:"",
+            account_number:"",
+            phone:"",
+            account_name:"",  
+            bank_name:"",
+            bank_code:"",
+            account_status:true, 
+        },
+         error:[],
+         banks:[],
+         transactions:[],
+         bankError:false,
+         selectedBanks:"",
+         flutterHeader:JSON.parse(localStorage.getItem('flutterHeader')),
+         account_status:''
+       } 
+   }, 
+   mounted() {  
+    this.getBanks();
+    this.accountsDetails();
+    this.getTransactions(); 
+    this.account_status=this.$auth.user.accounts.account_status
    },
-   mounted() { 
-   },
-   methods: {
+   methods: { 
+         currencyFormat(amount)
+         {
+            return (amount).toLocaleString('en-US', { 
+            currency: 'NGN',
+            minimumFractionDigits: 2
+            }); 
+         },
+       timer(time) {
+            return moment(time).format('MM/DD/YY');
+        },
+        fulltime(time) {
+            return moment(time).format('MMMM Do YYYY, h:mm a');
+        },
+       getTransactions()
+       {
+        this.$axios.get(`/api/transaction/get-all`).then((res)=>{
+                this.transactions=res.data.data
+            }).catch((error)=>{
+                console.log(error) 
+            })
+       },
+        accountsDetails()
+        {
+            let acc=this.$auth.user.accounts;
+            this.accounts={
+                user_id:acc.user_id,
+                account_type:acc.account_type,
+                transaction_pin:acc.transaction_pin,
+                account_number:acc.account_number,
+                phone:acc.phone,
+                account_name:acc.account_name,  
+                bank_name:acc.bank_name,
+                bank_code:acc.bank_code,
+                account_status:acc.account_status 
+            } 
+        },
+       updateAccount()
+       {
+            this.$axios.put(`/api/update-account/${this.$auth.user.accounts.id}`,this.accounts).then((res)=>{
+                console.log(res.data)
+            }).catch((error)=>{
+                console.log(error)
+
+            })
+       },
+       validateBank()
+       { 
+           if (this.accounts.account_number.length==10 && this.selectedBanks) {  
+            this.validateAccLoading=!this.validateAccLoading 
+               axios.post('/v3/accounts/resolve',{
+                   account_number:this.accounts.account_number,
+                   account_bank:this.selectedBanks.code, 
+                },this.flutterHeader).then((res)=>{   
+                    this.accounts.bank_name=this.selectedBanks.name; 
+                    this.accounts.bank_code=this.selectedBanks.code; 
+                    this.accounts.account_name=res.data.data.account_name; 
+                   this.validateAccErr=false 
+                   this.validateAccLoading=!this.validateAccLoading 
+                }).catch((error)=>{    
+                   this.validateAccErr=true
+                   this.validateAccLoading=!this.validateAccLoading
+                   this.accounts.account_name="";  
+                })   
+           }
+           else{
+               return false;
+           }
+       },
+       getBanks()
+       {  
+         this.bankError=false
+        this.bankLoading =! this.bankLoading 
+        axios.get('/v3/banks/NG', this.flutterHeader).then((res)=>
+        {  
+          this.bankLoading =! this.bankLoading  
+          this.banks=res.data.data 
+        }).catch((error)=>{   
+         this.bankLoading =! this.bankLoading  
+         this.bankError=true 
+        })  
+       },  
     makePayment() { 
         try {
              this.$launchFlutterwave({
@@ -130,9 +309,8 @@ export default {
              currency: 'NGN',
              payment_options: 'card,mobilemoney,ussd',
              customer: {
-             // email: this.$auth.user.email,
-             email: "itorophilip1998@gmail.com",
-             phonenumber: this.$auth.user.accounts.phone || "",
+             email: this.$auth.user.email, 
+             phonenumber: this.$auth.user.accounts.phone,
              name: this.$auth.user.name
              },
              callback: function(data) {
@@ -144,11 +322,10 @@ export default {
                  console.log(axios.defaults.headers.common)
                    axios.post('/api/top-up',data).then((res)=>
                    {
-                    //   location.reload() 
+                      location.reload()
                    }).catch((error)=>{  
-                    //   location.reload() 
-                   })
-
+                      document.getElementById('errorNetwork').style.display="block"
+                   }) 
  
              },
              customizations: {
@@ -198,6 +375,9 @@ export default {
 </script>
 
 <style>
+    .paid{
+        color: rgb(167, 241, 238) !important;  
+    } 
     .table thead th,.table td{ 
     border: 2px solid var(--info);
 }

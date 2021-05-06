@@ -1,14 +1,14 @@
 <template>
     <div class="fixed-bottom mfooter shadow bg-light border-top p-2 d-md-none d-block">
     <ul class="mfooter-ul p-0 m-0 text-center">  
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/dashboard')"><i class="fa fa-home" aria-hidden="true"></i></li> 
-        <li class="link shadow-sm bg-info text-light"  @click="urlget('/services/transfer')">  <i class="fa fa-money" aria-hidden="true"></i> </li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/redraw')"><i class="fa " aria-hidden="true"><strike>N</strike></i></li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/airtime')"><i class="fa fa-phone" aria-hidden="true"></i></li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/data')"><i class="fa fa-globe" aria-hidden="true"></i></li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i></li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/electricity')"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i></li>
-        <li class="link shadow-sm bg-info text-light" @click="urlget('/services/remitta')"><i class="fa" aria-hidden="true"><strike>(R)</strike> </i></li>
+        <li id="mdashboard" class="link shadow mclasslistHover" @click="urlget('/dashboard')"><i class="fa fa-home" aria-hidden="true"></i></li> 
+        <li id="mtransfer" class="link shadow mclasslistHover"  @click="urlget('/services/transfer')">  <i class="fa fa-money" aria-hidden="true"></i> </li>
+        <li id="mredraw" class="link shadow mclasslistHover" @click="urlget('/services/redraw')"><i class="fa " aria-hidden="true"><strike>N</strike></i></li>
+        <li id="mairtime" class="link shadow mclasslistHover" @click="urlget('/services/airtime')"><i class="fa fa-phone" aria-hidden="true"></i></li>
+        <li id="mdata" class="link shadow mclasslistHover" @click="urlget('/services/data')"><i class="fa fa-globe" aria-hidden="true"></i></li>
+        <li id="mtv" class="link shadow mclasslistHover" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i></li>
+        <li id="melectricity" class="link shadow mclasslistHover" @click="urlget('/services/electricity')"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i></li>
+        <li id="mremitta" class="link shadow mclasslistHover" @click="urlget('/services/remitta')"><i class="fa" aria-hidden="true"><strike>(R)</strike> </i></li>
     </ul>
 
     </div>
