@@ -16,10 +16,12 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->string('wallet_id');
             $table->string('account_type')->nullable();
             $table->string('account_name')->nullable();
+            $table->integer('account_number')->nullable();
             $table->integer('account_balance')->default(0);
-            $table->string('account_status')->default('not active');
+            $table->boolean('account_status')->default(0);
             $table->integer('transaction_pin')->nullable();
             $table->string('bank_name')->nullable();
             $table->integer('bank_code')->nullable();

@@ -19,6 +19,8 @@ class Transactions extends Model
         'status_from_user',
         'status_from_transaction',
         'status',
+        'transaction_id',
+        'reference_no',
     ];
     
    

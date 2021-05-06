@@ -1,4 +1,8 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center">
+<a href="https://laravel.com" target="_blank">
+<img src="https://lh3.googleusercontent.com/JZzSlX4NAOHLVrwERiEve64r-dexpPryUqVU1gKnZYKtgMt50CvybA74HZZJwFMY8_ab_g=s85" width="100px" ></a>
+<h1 align="center"><span style="color:royalblue !important">Websoft</span>-pay</h1>
+</p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
@@ -7,56 +11,34 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Websoft
+Websoft-pay is a semi-bank web and mobile app which uses modern wallet application format to get(receive) money, pay(transfer) money and use(bill payment) money from your local bank and across the world. Websoft-pay is a product of websoft company.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## TERMS AND CONDITION
+Basically, application that has to do with money,bank or payment most be handle carefully to avoid loss of money, money hijack etc.
+These are the list of our terms and condition:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## AUTHORIZATION
+ Basically every application of payment or request from wallet must be authorized before transaction must be done. Every user must protect this three items just for future use in other to safe their information from hackers. 
+a)Safe token (sent to your number)
+b)Password (for login)
+c)Transaction pin (for transaction access)
+Note: We do not know these three things so we cant access them, 	they are your personal information so keep them safe and hidden.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## VERIFICATION: 
+Every user must verify his/her account before having access to the app. To verify, after registration  a code is sent to the user’s email and you must copy the code into the input field the verify if it match you will be logged in else you have to resend link or find the correct(recent) code.
 
-## Learning Laravel
+## TRANSACTIONS: 
+Every transaction you make, money will be deducted from your wallet just link bank deduction and we deposit your beneficiary, be it airtime, data, TV-cables, transfer or any transaction.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## CHARGES:
+ Every charges will be make after known to you and after accepting and click proceed for payment we will now charge you from your wallet.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ERRORS: 
+Do well to channel any challenge you are facing from transaction, alert, reset password etc so we can help fix it for you.
 
-## Laravel Sponsors
+## PASSWORD RESET:
+ You can reset password and information will be sent to your email(active email use for the account registration).
+## SUPPORT:
+ We do care for our customers and the service we provide, please do well to contact us for any information using our support email, we are working 24/7 hours for you and you alone.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-git 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers; 
-use App\Mail\Verify;
-use App\Mail\Reset;
+namespace App\Http\Controllers;
+
+use App\Mail\Reset; 
 use App\Models\User;
+use App\Mail\Verifyme;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -19,54 +21,60 @@ class AuthController extends Controller
      *
      * @return void
      */
+    public $baseurl="http://localhost:3000"; 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => 
-        ['signin','signup','verify','resetVerify','passwordReset','resendLink']]);
-    } 
+        $this->middleware('auth:api', ['except' =>
+        ['signin','signup','reset_verify','passwordReset','resendLink','verified']]);
+    }
     /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function signup()
-    { 
-        Validator::make(request()->all(), [
+    {
+        request()->validate([
             'name' => 'required|string|between:5,100',
             'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:5',
+            'password' => 'required|string|min:7|max:15',
             'role_id' => 'required:integer|max:1',
-        ]);
- 
+        ]); 
+
         $user=User::create([
             'name'=> request()->name,
             'password' =>Hash::make(request()->password),
             'email'=> request()->email,
             'role_id'=> request()->role_id,
-            ]);  
-        $user->accounts()->create(['user_id'=>$user->id]);
+            ]);
+            $acc=Str::random(3);
+           $user->accounts()->create([
+               'user_id'=>$user->id,
+               'account_type'=>'individual',
+               'wallet_id'=>"W-".Time()
+               ]);
           return $this->sendCode($user);
     }
 
     public function signin()
     {
-        Validator::make(request()->all(), [ 
+        request()->validate([
             'email' => 'required|string|email' ,
-            'password' => 'required|string' 
+            'password' => 'required|string'
         ]);
       $user=User::where('email',request()->email)
       ->where('email_verified_at','!=',NULL)->first();
     //   check wheather email is verify
       if (!$user) {
-        return response()->json(['message' => 'Email not verify'], 401); 
+        return response()->json(['message' => 'Email not verify'], 401);
       }
 
-        $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        $credentials = request(['email', 'password']);  
+        $token = auth()->attempt($credentials); 
+        if (!$token) {
+            return response()->json(['message' => 'Invalid Email or Password'], 401);
         }
-       
+
         return $this->respondWithToken($token);
     }
 
@@ -77,7 +85,8 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $user=User::where('id',auth()->user()->id)->with('accounts')->first();
+        return response()->json($user,200);
     }
 
     /**
@@ -87,7 +96,7 @@ class AuthController extends Controller
      */
     public function signout()
     {
-        auth()->logout(); 
+        auth()->logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -111,34 +120,36 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => "bearer ".$token,
+            'access_token' =>$token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user(),
+            'user' => User::where('id',auth()->user()->id)->with('accounts')->first(),
         ]);
     }
    public function  resendLink(){ 
-     $user=User::where('email',request()->email)->first(); 
+    request()->validate([
+        'email' => 'required|string|email'    
+    ]);
+     $user=User::where('email',request()->email)->first();  
      return $this->sendCode($user);
      }
-
     public function sendCode($user)
     { 
-       
         // initialize and update code here
         $verification_code=Str::random(5);
         $user->update(['verify_code'=>$verification_code]);
 
-        // send code to mail here example token to email   
-       $subject="Verification"; 
+        // send code to mail here example token to email
+       $subject="Verification";
        $email=$user->email;
        $data=[
            'name'=>"Hello $user->name",
-           'content'=>"Welcome to Websoft-pay. Before you can start accepting payments and making transactions, you need to confirm your email address.",
-           'code'=>$verification_code
+           'content'=>"Welcome to Websoft-pay. Before you can start accepting payments and make transactions, you need to verify your account.",
+           'code'=>$verification_code,
+           'link'=>url("/api/auth/verified/$email/$verification_code"),
        ];
        try {
-          Mail::to(request()->email)->send(new Verify($subject, $email, $data));  
+          Mail::to(request()->email)->send(new Verifyme($subject, $email, $data));
        } catch (\Throwable $th) {
            //throw $th;
        }
@@ -148,87 +159,85 @@ class AuthController extends Controller
             'message'=> "We have send a verification to your email address",
             'email'=> $user->email,
          ],200);
-        
+
     }
-    public function verify()
-    { 
-        Validator::make(request()->all(), [ 
-            'email' => 'required|string|email' 
-        ]);
-        // get email and code
-        $vCode=request()->verification_code;
-        $email=request()->email;
+  
+    
+    public function verified($email,$vCode)
+    {
         $user=User::where('email',$email)
         ->where('verify_code',$vCode)->first(); 
-
-        // invalid code or email from user
+        // invalid code or email from user 
        if (!$user) {
-        return response()->json(['success'=> false, 'message'=> "Verification code or Email is invalid."]); 
-       } 
+        return response()->json(['success'=> false, 'message'=> "Verification code or Email is invalid."],401);
+       }
     //    verify user now
        $user->update(['email_verified_at'=>now()]); 
-    //    login and send token response
-       $token=auth()->login($user);
-       return $this->respondWithToken($token); 
+       return redirect("$this->baseurl/auth/signin?$email"); 
     }
 
-    public function resetVerify(){
-        Validator::make(request()->all(), [ 
-            'email' => 'required|string|email' 
+    public function reset_verify(){
+        request()->validate( [
+            'email' => 'required|string|email'
         ]);
         $email=request()->email;
         $user=User::where('email',request()->email)->first();
         if(!$user)
         {
-        return response()->json(['success'=> false, 'message'=> "Verification code or Email is invalid."]);  
+        return response()->json(['success'=> false, 'message'=> "Verification code or Email is invalid."]);
         }
-         $token=Str::random(10); 
-        //  save token and mail to reset table  
+         $token=Str::random(10);
+        //  save token and mail to reset table
         $check= DB::table('password_resets')->where('email',request()->email);
         if(!$check->first()){
            $data= DB::table('password_resets')->insert([
                 'email'=>$email,
                 'token'=>$token,
                 'created_at'=>now()
-             ]);  
+             ]);
         }
         else{
            $check->update([
                 'email'=>$email,
                 'token'=>$token,
                 'created_at'=>now()
-           ]);  
+           ]);
          }
-       
+
         //   send token and mail to email as a reset link example (url/reset/{token}/{email})
-        $link="http://localhost:3000/auth/reset-password?$token#$email";
+        $link="$this->baseurl/auth/reset-password?$token#$email";
+        $subject="Reset Password";
         $data=[
             'name'=>"Hello $user->name",
             'content'=>"You have just requested for a password reset link.",
             'link'=>$link
         ];
         try {
-            Mail::to(request()->email)->send(new Reset($subject, $email, $data));  
+            Mail::to(request()->email)->send(new Reset($subject, $email, $data));
          } catch (\Throwable $th) {
              //throw $th;
          }
-        return response()->json(['success'=> false, 'message'=> "A reset link has been sent to your email $email"]);  
+        return response()->json(['success'=> true, 'message'=> "A reset link has been sent to your email $email"]);
 
     }
 
     public function passwordReset(){
 
-        Validator::make(request()->all(), [ 
+        request()->validate([
             'email' => 'required|string|email',
-            'password' => 'required|string|confirmed|min:5', 
-            'token' => 'required|string|min:10',   
+            'password' => 'required|string|confirmed|min:5',
+            'token' => 'required|string|min:10',
         ]);
-        
+
         $check= DB::table('password_resets')->where('email',request()->email)
-        ->where('token',request()->token)->first(); 
-        $user=User::where('email',$check->email)->update(['password'=>Hash::make(request()->password)]); 
+        ->where('token',request()->token); 
+        if(!$check->first())
+        {
+           return response()->json(['success'=> false, 'message'=> "Invalid Email"],401); 
+        }
+        $user=User::where('email',$check->first()->email)->update(['password'=>Hash::make(request()->password)]); 
         $check->delete();
-        return response()->json(['success'=> true, 'message'=> "Password Updated"]);  
-        
+        return response()->json(['success'=> true, 'message'=> "Password Updated"],200);
+
     }
 }

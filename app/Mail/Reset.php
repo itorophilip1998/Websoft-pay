@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Mail; 
+namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Verify extends Mailable
+class Reset extends Mailable
 {
-    use Queueable, SerializesModels; 
+    use Queueable, SerializesModels;
     public $ema;
     public $sub;
     public $dat;
@@ -32,10 +32,10 @@ class Verify extends Mailable
     public function build()
     {
         $e_mail = $this->ema;
-        $e_subject = $this->sub; 
-        $data =$this->dat; 
+        $e_subject = $this->sub;
+        $data =$this->dat;
         $send=$this->from('itkeyzzpianny1998@gmail.com','Websoft-pay')->subject($e_subject)
-        ->view('emails.reset')->with('data'); 
-        return $send; 
+        ->view('emails.reset',compact('data'));
+        return $send;
     }
-} 
+}

@@ -22,6 +22,8 @@ class CreateTransactionsTable extends Migration
             $table->string('transaction_type');
             $table->integer('amount');
             $table->string('status_from_user');
+            $table->integer('transaction_id');
+            $table->string('reference_no');
             $table->string('status_from_transaction');
             $table->string('status');
             $table->timestamps();

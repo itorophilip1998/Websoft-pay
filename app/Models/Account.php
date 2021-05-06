@@ -13,7 +13,9 @@ class Account extends Model
   
     protected $fillable = [
         'user_id',
+        'wallet_id',
         'account_type',
+        'account_number',
         'account_name', 
         'account_balance',
         'account_status',

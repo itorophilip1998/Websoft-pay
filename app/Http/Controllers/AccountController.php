@@ -13,19 +13,19 @@ class AccountController extends Controller
         $this->middleware('auth:api');
     } 
    
-    public function update(Account $accounts)
+    public function update($id)
     { 
-         Validator::make(request()->all(),[
+         $data=Validator::make(request()->all(),[
             'user_id'=>['required'],
             'account_type'=>['required'],
-            'account_name'=>['required'],
-            'account_balance'=>['required'],
+            'account_name'=>['required'], 
             'account_status'=>['required'],
             'transaction_pin'=>['required'],
             'bank_name'=>['required'],
             'bank_code'=>['required'],
             'phone'=>['required'],
-         ]);
+         ]); 
+        $accounts=Account::find($id);  
         $accounts->update(request()->all());
         return response()->json(['message' => 'Successfully updated','data'=> $accounts],200);
 

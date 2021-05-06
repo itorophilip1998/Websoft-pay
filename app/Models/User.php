@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\TopUp;
 use App\Models\Reports;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -58,9 +59,13 @@ class User extends Authenticatable  implements JWTSubject
     {
         return $this->hasOne(Account::class);
     }
+    public function topUp()
+    {
+        return $this->hasMany(TopUp::class);
+    }
     public function reports()
     {
-        return $this->hasOne(Reports::class);
+        return $this->hasMany(Reports::class);
     }
 
     public function getJWTIdentifier()
