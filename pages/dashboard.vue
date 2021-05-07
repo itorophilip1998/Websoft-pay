@@ -1,6 +1,7 @@
 <template>
     <div class="pt-5 mt-3 px-md-5">
          <div class="row m-0 ">
+             <loader v-if="loading"/>
              <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
               <sidebar/>
              </div>
@@ -28,7 +29,7 @@
                             </div>
                              <div class="modal-body">
                                <form @submit.prevent="updateAccount()">
-                                 <div class="border-0 text-dark pb-2">
+                                 <div v-if="!account_status" class="border-0 text-dark pb-2">
                                    <span>Transaction Pin <small class="text-danger">*</small></span> 
                                  <input type="password"
                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -208,9 +209,10 @@ export default {
          banks:[],
          transactions:[],
          bankError:false,
+         loading:false,
          selectedBanks:"",
          flutterHeader:JSON.parse(localStorage.getItem('flutterHeader')),
-         account_status:''
+         account_status:null
        } 
    }, 
    mounted() {  
@@ -253,16 +255,24 @@ export default {
                 account_name:acc.account_name,  
                 bank_name:acc.bank_name,
                 bank_code:acc.bank_code,
-                account_status:acc.account_status 
+                account_status:this.accounts.account_status 
             } 
         },
        updateAccount()
        {
+           this.loading=!this.loading
             this.$axios.put(`/api/update-account/${this.$auth.user.accounts.id}`,this.accounts).then((res)=>{
-                console.log(res.data)
+           this.loading=!this.loading
+           location.reload() 
             }).catch((error)=>{
-                console.log(error)
-
+           this.loading=!this.loading 
+           if (error.response.status==422) {
+            this.error=error.response.data.errors
+           }
+           else
+           {
+           location.reload()  
+           }
             })
        },
        validateBank()

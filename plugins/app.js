@@ -19,18 +19,13 @@ let flutterHeader={headers:{
     'Authorization':'Bearer FLWSECK-36e950df4f9ad7a8ba223adcc855615a-X',
     'Content-Type':'application/json'
 }}
-// test mode
-// let flutterHeader={headers:{
-//     'X-Requested-With':'XMLHttpRequest',
-//     'Authorization':'Bearer FLWSECK_TEST-eb23c882c01db37e2fc0f1e220a90c9a-X',
-//     'Content-Type':'application/json'
-// }}
  
 window.localStorage.setItem('flutterHeader',JSON.stringify(flutterHeader))
 import terms from '@/components/terms';
 import loader from '@/components/loader';
 import sidebar from '@/components/sidebar';
 import mfooter from '@/components/mobilefooter';  
+
 export default { 
 components:{
     terms,loader,mfooter,sidebar

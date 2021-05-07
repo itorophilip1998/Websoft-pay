@@ -101,7 +101,7 @@ color:#5c6668 !important;
    width: 100% !important;
    height: 100vh !important; 
    background-color: rgba(0,0,0,0.6);
-   z-index: 10 !important; 
+   z-index: 3000 !important; 
    text-align: center;
    padding-top: 20%;
  }
