@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TopUpController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TransactionsController;
 
 
@@ -25,6 +26,8 @@ Route::group([
 }); 
 
 Route::put('update-account/{id}',[AccountController::class,'update']);
+Route::get('/get-wallet/{id}', [AccountController::class,'getUser']);
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'transaction'
@@ -33,6 +36,6 @@ Route::group([
     Route::delete('/destroy-all', [TransactionsController::class,'destroyAll']);
     Route::get('/get/{transactions}', [TransactionsController::class,'get']);
     Route::get('/get-all', [TransactionsController::class,'getAll']);
-});
-// Route::resource('news', [NewsController::class]);
+}); 
 Route::post('/top-up', [TopUpController::class,'store']);
+Route::post('/transfer', [TransferController::class,'store']);

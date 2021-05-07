@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\TopUp;
 use App\Models\Reports;
+use App\Models\Transfer;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -66,6 +67,10 @@ class User extends Authenticatable  implements JWTSubject
     public function reports()
     {
         return $this->hasMany(Reports::class);
+    }
+    public function transfer()
+    {
+        return $this->hasMany(Transfer::class);
     }
 
     public function getJWTIdentifier()
