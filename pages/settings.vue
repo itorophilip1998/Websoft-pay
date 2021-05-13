@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-5 mt-3 px-md-5">
+    <div class="py-5 mt-3 px-md-5">
          <div class="row m-0 ">
              <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
               <sidebar/>
@@ -33,13 +33,22 @@
 
                           <small class="tmuted">Save all my signin logs</small> 
                           <div class="form-check">
-                              <input id="my-input" @click="settings.loggedinNotify=!settings.loggedinNotify" class="form-check-input link" type="checkbox" name="" value="true">
-                              <label for="my-input" v-if="settings.loggedinNotify" class="form-check-label text-white">Enabled</label>
+                              <input id="my-input" @click="settings.loggedinSave=!settings.loggedinSave" class="form-check-input link" type="checkbox" name="" value="true">
+                              <label for="my-input" v-if="settings.loggedinSave" class="form-check-label text-white">Enabled</label>
                               <label for="my-input" v-else class="form-check-label text-white">Disabled</label>
                           </div>
                           <small class="tmuted">View sll my singin Logs</small> 
-                          <button type="button" class="btn btn-sm shadow text-white topup rounded-l">View Signin Logs</button> 
-
+                          <button type="button" @click="viewLogs=!viewLogs" class="btn btn-sm shadow text-white topup rounded-l">
+                              <span v-if="!viewLogs">View Logs</span>
+                              <span v-else>Hide Logs</span>
+                          </button> 
+                          <div class="logs bmuted p-3"  v-if="viewLogs">
+                              <h6>Your Signin details</h6>
+                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
+                          </div>
                          </div>
                          <div class="form-group ">
                           <hr class="p-0 m-0 mt-1"> 
@@ -84,8 +93,10 @@ export default {
    },
    data() {
        return { 
+        viewLogs:false,
         settings:{
             loggedinNotify:false,
+            loggedinSave:false,
             tfa:false,
             Opin:'',
             Npin:'',
