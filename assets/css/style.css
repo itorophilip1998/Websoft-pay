@@ -47,6 +47,9 @@ textarea:focus,input:focus,input.form-control:focus{
      box-shadow:none  !important;
      color:#17a2b8;  
 }
+textarea{
+     resize: none !important
+}
  
 .tmuted{
     color: rgb(207, 205, 205);
@@ -96,14 +99,30 @@ color:#5c6668 !important;
     display: none;
  }
 
- .loader-page{
+ .loader-page,.swal2-backdrop-show{
    position: absolute;
    width: 100% !important;
    height: 100vh !important; 
-   background-color: rgba(0,0,0,0.6);
+   background-color: rgba(0,0,0,0.6) !important;
    z-index: 3000 !important; 
-   text-align: center;
+   text-align: center ;
    padding-top: 20%;
+    left: 0 !important;
+    top: 0 !important;
+
+ }
+ 
+ .swal2-modal{
+     padding: 0 !important;
+     width: 300px !important;
+    height: 150px !important;
+ }
+ .swal2-content{
+     font-size: 15px !important;
+     font-weight: bold !important;
+ }
+ .swal2-icon{
+     margin: 5px !important; 
  }
  .loader-page>.spinner-border{
     border: ridge #ebeeee 6px; 
@@ -172,12 +191,24 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-    background: rgba(2, 60, 65, 0.164)  !important;
+    background: whitesmoke  !important;
     color: var(--info) !important;
     font-weight: bold !important;
-    border-radius: 0 !important;
+    border-radius: 4px !important;
+    border-top: 4px solid var(--info); 
 }
  
 .nav-item>a {
     color: var(--info) !important;  
 } 
+.serviceLogo
+{
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+.serviceUl>li{
+    display: inline;
+
+}

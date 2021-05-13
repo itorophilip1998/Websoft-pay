@@ -82,8 +82,8 @@ export default {
         return {
             passwordCheckData:false,
             details:{
-                email:'itorophilip1998@gmail.com',
-                password:'Password',
+                email:'',
+                password:'',
             },
             error:[],
             loading:false

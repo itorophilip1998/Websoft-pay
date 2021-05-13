@@ -1,57 +1,36 @@
 <template>
     <div class="pt-5 mt-3 px-md-5">
+        <loader v-if="loading"/>
          <div class="row m-0 ">
              <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
               <sidebar/>
              </div>
-             <div class="col-md-7 p-md-3 px-lg-5 mr-auto  ">
-                 <div class="row"> 
-                     <div class="col-12  p-3 "> 
-                         <h6 class="text-info">Hello <span class="text-muted text-capitalize font-italic">{{ $auth.user.name }}</span> 😎</h6>
-                        <div class="money border shadow  bg-info rounded-l p-2 pl-3 pb-md-3">
-                         <small class="tmuted">Wallet Balance </small> 
-                         <i v-if="seeMoney" @click="moneyCheck('show')" class="fa fa-eye tmuted link" aria-hidden="true"></i>
-                         <i v-if="!seeMoney" @click="moneyCheck('hide')" class="fa fa-eye-slash tmuted link" aria-hidden="true"></i>
-                             <input type="text" ref="money" :value="'₦'+$auth.user.accounts.account_balance+' .00'" class="form-control  border-0 moneyText pl-0" readonly > 
-                            <button  @click="$router.push('/services/transfer')" class="btn btn-info btn-sm topup  shadow rounded-l w-25">Top-up</button>
-                            <button  @click="$router.push('/services/redraw')" class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
-                        </div>
+             <div class="col-md-7 p-md-3 px-lg-5 mr-auto p-0 ">
+                <div class="row m-0"> 
+                    <div class="col-12  px-1  pb-3 mt-0 "> 
+                       <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" >
+                        <span class="text-white">Transfer to Wallet</span>  
+                        <form @submit.prevent="reportPost()">     
+                           <div class="form-group text-white">
+                               <small class="tmuted">Error Type</small>
+                               <select name="bundle"  @change="selectCheck()"  id="select"  v-model="select" class="custom-select h-50 link  text-muted" style="height: 50px !important;">
+                                <option value="" selected>Select Type</option>  
+                                  <option  :value="item" v-for="(item, index) in type" :key="index">
+                                      {{ item }} 
+                                  </option>    
 
-                   </div> 
-                   <div class="col-12   mt-3 "> 
-                    <div class="transaction shadow border-info border rounded-lg">
-                        <h6 class="text-info border-info  border-bottom p-2 text-center">Transactions Details</h6>
-                         <table class="table table-light text-center   text-muted  ">
-                             <thead   >
-                                 <tr >
-                                     <th>Beneficiary</th>
-                                     <th>Type</th>
-                                     <th>Date</th>
-                                 </tr>
-                             </thead>
-                             <tbody>
-                                 <tr class="text-danger link">
-                                     <td class="text-center"><small>089278625752</small></td>
-                                     <td class="text-center"><small>airtime</small></td>
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
-                                 </tr>
-                                 <tr class="text-success link">
-                                     <td class="text-center"><small>09078925673</small></td>
-                                     <td class="text-center"><small>Data</small></td>
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
-                                 </tr>
- 
-                            
-                             </tbody> 
-                              
-                         </table>
-                         <div class="row m-0 pl-3 border-top border-info text-center">
-                             <small class="col-12 p-0 m-0 text-success"><i class="fa fa-circle " aria-hidden="true"></i> Successful &emsp;</small>
-                             <small class="col-12 p-0 m-0 text-danger"><i class="fa fa-circle " aria-hidden="true"></i> Unsuccessful</small>
-                         </div>
-                    </div>                        
-                   </div>
-                 </div>
+                            </select> 
+                           </div>  
+                           <div class="form-group text-white">
+                               <small class="tmuted">Description</small>
+                               <textarea id="my-textarea" class="form-control" v-model="report.message" name="" rows="4" placeholder="What is your challange?"></textarea>
+                           </div>  
+                        <button type="submit" v-if="report.message && report.type" class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Submit</button>
+
+                         </form> 
+                       </div> 
+                  </div>  
+             </div>
              </div>
          </div> 
          <mfooter/>
@@ -70,20 +49,53 @@ export default {
    },
    data() {
        return { 
-        seeMoney:false
+        loading:false,
+        seeMoney:false,
+        select:"",
+        report:{
+            message:"",
+            user_id:this.$auth.user.id,
+            type:"",
+        },
+        type:[
+        'Transfer',
+        'Redraw',
+        'Airtime',
+        'Data Subscription',
+        'TV Subscription',
+        'Electricity Subscription',
+        'Remitta',
+        'TopUp',
+        ],
        }
    },
    methods: {
-    moneyCheck(data){ 
-             if (data=="show") {
-                 this.seeMoney=!this.seeMoney;
-                 this.$refs.money.type="text"    
-             }
-             else{
-                this.seeMoney=!this.seeMoney;
-                this.$refs.money.type="password" 
-             }
-        }
+    selectCheck(){
+        this.report.type=this.select
+    },
+    reportPost(){
+        this.loading=!this.loading
+        this.$axios.post('/api/report',this.report).then((res)=>{
+        this.loading=!this.loading 
+        this.report.message=''
+        this.report.type=''
+        this.$swal({ 
+                icon: 'success',
+                text: res.data.message ,
+                showConfirmButton: false,
+                timer: 2500
+                })
+        }).catch((error)=>{
+            this.loading=!this.loading
+            this.$swal({ 
+                icon: 'error',
+                text: error.response.data.message || "Error Occured",
+                showConfirmButton: false,
+                timer: 2500
+                })
+
+        })
+    }
    },
 }
 </script>

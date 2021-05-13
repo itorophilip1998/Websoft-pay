@@ -1,58 +1,84 @@
 <template>
     <div class="pt-5 mt-3 px-md-5">
+        <loader v-if="loading"/>
+
          <div class="row m-0 ">
-             <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
+             <div class="col-md-4  p-md-3  ml-md-auto  d-md-block d-none">
               <sidebar/>
              </div>
-             <div class="col-md-7 p-md-3 px-lg-5 mr-auto  ">
-                 <div class="row"> 
-                     <div class="col-12  p-3 "> 
-                         <h6 class="text-info">Hello <span class="text-muted text-capitalize font-italic">{{ $auth.user.name }}</span> 😎</h6>
-                        <div class="money border shadow  bg-info rounded-l p-2 pl-3 pb-md-3">
-                         <small class="tmuted">Wallet Balance </small> 
-                         <i v-if="seeMoney" @click="moneyCheck('show')" class="fa fa-eye tmuted link" aria-hidden="true"></i>
-                         <i v-if="!seeMoney" @click="moneyCheck('hide')" class="fa fa-eye-slash tmuted link" aria-hidden="true"></i>
-                             <input type="text" ref="money" :value="'₦'+$auth.user.accounts.account_balance+' .00'" class="form-control  border-0 moneyText pl-0" readonly > 
-                            <button  @click="$router.push('/services/transfer')" class="btn btn-info btn-sm topup  shadow rounded-l w-25">Top-up</button>
-                            <button  @click="$router.push('/services/redraw')" class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
-                        </div>
-
-                   </div> 
-                   <div class="col-12   mt-3 "> 
-                    <div class="transaction shadow border-info border rounded-lg">
-                        <h6 class="text-info border-info  border-bottom p-2 text-center">Transactions Details</h6>
-                         <table class="table table-light text-center   text-muted  ">
-                             <thead   >
-                                 <tr >
-                                     <th>Beneficiary</th>
-                                     <th>Type</th>
-                                     <th>Date</th>
-                                 </tr>
-                             </thead>
-                             <tbody>
-                                 <tr class="text-danger link">
-                                     <td class="text-center"><small>089278625752</small></td>
-                                     <td class="text-center"><small>airtime</small></td>
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
-                                 </tr>
-                                 <tr class="text-success link">
-                                     <td class="text-center"><small>09078925673</small></td>
-                                     <td class="text-center"><small>Data</small></td>
-                                     <td class="text-center"><small><i>20/2/2021 2:30pm</i></small></td>
-                                 </tr>
+             <div class="col-md-7 p-md-3 px-lg-5 mr-md-auto px-0 "> 
+               
+                 <div class="row m-0 p-1"> 
+                    <ul class=" serviceUl text-center col-12  my-3 m-0 p-0">
+                        <h6 class="text-dark text-center" v-if="!airtime.name">Network Available </h6>
+                        <!-- <h6 class="text-dark text-center" v-else>{{ airtime.name }} Selected</h6> -->
+                        <li class="mx-md-2" @click="airtime.name='MTN'" >
+                           <img src="~/assets/images/mtn.png" class="serviceLogo shadow" alt="">   
+                        </li>
+                        <li class="mx-md-2" @click="airtime.name='AIRTLE'" >
+                           <img src="~/assets/images/airtel.png"  class="serviceLogo shadow"alt="">   
+                        </li>
+                        <li class="mx-md-2" @click="airtime.name='GLO'" >
+                           <img src="~/assets/images/glo.jpeg" class="serviceLogo shadow" alt="">   
+                        </li>
+                        <li class="mx-md-2" @click="airtime.name='9MOBILE'" >
+                           <img src="~/assets/images/9mobile.jpeg" class="serviceLogo shadow" alt="">   
+                        </li>
+                        <hr class="m-0 mt-1 ">
+                   </ul> 
+    
+                     <div class="col-12  p-3  border shadow  bg-info rounded-l p-2 pl-3 pb-md-3">  
  
-                            
-                             </tbody> 
-                              
-                         </table>
-                         <div class="row m-0 pl-3 border-top border-info text-center">
-                             <small class="col-12 p-0 m-0 text-success"><i class="fa fa-circle " aria-hidden="true"></i> Successful &emsp;</small>
-                             <small class="col-12 p-0 m-0 text-danger"><i class="fa fa-circle " aria-hidden="true"></i> Unsuccessful</small>
-                         </div>
-                    </div>                        
-                   </div>
+                          <div class="airtime" v-if="!next">
+                        <span class="text-white">Buy Airtime NG </span> 
+
+                            <div class="airtime text-white">  
+                                <div class="form-group">
+                                  <small class="tmuted">Amount(₦)</small>
+                                  <input type="number" v-model.number="airtime.amount" max="1" autocomplete="off" @input="getAmount()"  step="1" min="1" class="form-control p-4" name="" id="AirtimeAmount" aria-describedby="helpId" placeholder="₦100 above">  
+                                  <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
+                                </div>
+                           </div> 
+                           <div class="airtime text-white">
+                               <small  class=" d-block tmuted">Beneficiary</small> 
+                               <div class="form-check d-inline mr-2">
+                                   <span class="form-check-label p-1 text-white">
+                                   <input type="radio" class="form-check-input link " @click="airtime.beneficiaryType='Self';airtime.customer=$auth.user.accounts.phone"
+                                    name="beneficiary" id=""  checked >
+                                   Self
+                                 </span> 
+                               </div>
+                               <div class="form-check d-inline">
+                                   <span class="form-check-label p-1 text-white">
+                                       <input type="radio" class="form-check-input link"  @click="airtime.beneficiaryType='Thirdparty';airtime.customer=''" name="beneficiary" id=""  >
+                                       Thirdparty
+                                     </span>
+                               </div>
+                           </div> 
+                           <div class="airtime text-white" v-if='airtime.beneficiaryType=="Thirdparty"'>  
+                                <div class="form-group"> 
+                                  <input type="text"  class="form-control p-4" v-model="airtime.customer" name="" id="" aria-describedby="helpId" placeholder="Beneficiary Phone ">
+                                  <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
+                                </div>
+                           </div>   
+                           <button @click="next=true" v-if="airtime.amount && airtime.customer && btn" class="btn btn-info shadow rounded-l topup btn-sm mt-1">Next</button>
+                          </div>
+ 
+                          <div class="pin" v-else>
+                            <small class="tmuted">Send airtime ₦{{ currencyFormat(airtime.amount) }} to {{ airtime.customer }}</small> 
+
+                            <div class="form-group"> 
+                                <input type="password"  class="form-control p-4" v-model="transaction_pin" name="" id="" aria-describedby="helpId" placeholder="Transaction Pin">
+                                <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
+                              </div>
+                            <button @click="next=false" v-if="next" class="btn btn-info shadow rounded-l topup btn-sm mt-1"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                            <button @click="loadAirtime()" v-if="next && transaction_pin.length==4" class="btn btn-info shadow rounded-l topup btn-sm mt-1">Proceed</button>
+                          </div>
+                   </div>  
                  </div>
+             
              </div>
+             
          </div> 
          <mfooter/>
     </div>
@@ -61,6 +87,8 @@
 <script>
 import mfooter from '@/components/mobilefooter' 
 import sidebar from '@/components/sidebar' 
+import moment from 'moment'; 
+
 export default {
 //   auth:false,
    components:
@@ -70,10 +98,88 @@ export default {
    },
    data() {
        return { 
-        seeMoney:false
+           airtime:{
+                country:"NG",
+                name:"",
+                amount:"",
+                beneficiaryType:'',
+                customer:this.$auth.user.accounts.phone,
+                reference:'',
+                type:"AIRTIME",
+                recurrence: "ONCE",
+           },
+         flutterHeader:JSON.parse(localStorage.getItem('flutterHeader')), 
+        seeMoney:false, 
+        loading:false, 
+        next:false, 
+        btn:false, 
+        transaction_pin:"",
        }
    },
    methods: {
+    getAmount()
+    {  
+        (this.airtime.amount >= 100 && this.airtime.customer)? this.btn=true:this.btn=false;
+    var inputBox = document.getElementById("AirtimeAmount"); 
+        var invalidChars = [  "-", "+", "e", ];  
+        inputBox.addEventListener("input", function() {
+        this.value = this.value.replace(/[e\+\-]/gi, "");
+        }); 
+        inputBox.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+        });
+         
+    },
+    currencyFormat(amount)
+         {
+            return (amount).toLocaleString('en-US', { 
+            currency: 'NGN',
+            minimumFractionDigits: 2
+            }); 
+         },
+       loadAirtime()
+       {   
+            this.$axios.post('/api/verifypin',{'transaction_pin':this.transaction_pin}).then((res)=>{
+            this.airtime.reference='AT-'+moment(Date()).format('hhmmssmmm')
+            this.loading=!this.loading 
+               axios.post('/v3/bills', this.airtime,this.flutterHeader).then((res)=>{    
+               this.loading=!this.loading;
+                }).catch((error)=>{    
+                    this.loading=!this.loading  
+                   if(error.response.status==400)
+                   {
+                    this.$swal({ 
+                    icon: 'error',
+                    text: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+                   }else{ 
+                    this.$swal({ 
+                    icon: 'error',
+                    text: "No Network or poor internet connection",
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+                   }
+
+                })   
+           }).catch((error)=>{
+            if(error.response.status==401)
+                   {
+                    this.$swal({ 
+                    icon: 'error',
+                    text: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+                   } 
+           })
+        
+         
+       },
     moneyCheck(data){ 
              if (data=="show") {
                  this.seeMoney=!this.seeMoney;

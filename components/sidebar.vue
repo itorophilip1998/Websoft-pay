@@ -3,13 +3,12 @@
     <ul class="p-0 m-0 text-left shadow ">  
                 <li class="dropdown-item link p-3 border " id="dashboard" @click="urlget('/dashboard')"><i class="fa fa-home" aria-hidden="true"></i>&ensp; <span>Dashboard</span></li>
                 <li class="dropdown-item link p-3 border" id="transfer" @click="urlget('/services/transfer')"><i class="fa fa-money" aria-hidden="true"></i>&ensp;<span>Transfer</span></li>
-                <li class="dropdown-item link p-3 border" id="redraw" @click="urlget('/services/redraw')"><strike>N</strike>&emsp;<span>Redraw</span></li>
                 <li class="dropdown-item link p-3 border " id="airtime" @click="urlget('/services/airtime')"><i class="fa fa-phone" aria-hidden="true"></i>&emsp;<span>Buy Airtime</span></li>
                 <li class="dropdown-item link p-3 border" id="data" @click="urlget('/services/data')"><i class="fa fa-globe" aria-hidden="true"></i>&emsp;<span>Buy Data</span></li>
-                <li class="dropdown-item link p-3 border" id="tv" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i>&ensp; <span>Tv-cables Subscription</span></li>
-                <li class="dropdown-item link p-3 border" id="electricity" @click="urlget('/services/electricity')"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i> &ensp; <span>Electricity Subscription</span></li>
+                <li class="dropdown-item link p-3 border" id="tv" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i>&ensp; <span>Tv-cables <span class="d-md-none d-lg-inline">Subscription </span></span></li>
+                <li class="dropdown-item link p-3 border" id="electricity" @click="urlget('/services/electricity')"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i> &ensp; <span>Electricity <span class="d-md-none d-lg-inline">Subscription</span></span></li>
                 <li class="dropdown-item link p-3 border" id="remitta" @click="urlget('/services/remitta')"><strike>(R)</strike>&ensp; Remitta</li>
-                <li class="dropdown-item link p-3 border" id="issues" @click="urlget('/issues')"><i class="fa fa-book" aria-hidden="true"></i> &ensp; Report Issues/Errors</li>
+                <li class="dropdown-item link p-3 border" id="issues" @click="urlget('/issues')"><i class="fa fa-book" aria-hidden="true"></i> &ensp; Report Issues<span class="d-md-none d-lg-inline">/Errors</span></li>
                 <li class="dropdown-item link p-3 border" id="settings" @click="urlget('/settings')"><i class="fa fa-gear" aria-hidden="true"></i> &ensp; Settings</li>
     </ul>
 
@@ -30,8 +29,7 @@ export default {
         check(routes)
         {   
             let dashboard=document.getElementById("dashboard") 
-            let transfer=document.getElementById("transfer") 
-            let redraw=document.getElementById("redraw") 
+            let transfer=document.getElementById("transfer")  
             let airtime=document.getElementById("airtime") 
             let data=document.getElementById("data") 
             let tv=document.getElementById("tv") 
@@ -41,15 +39,14 @@ export default {
             let settings=document.getElementById("settings")
 
             let mdashboard=document.getElementById("mdashboard") 
-            let mtransfer=document.getElementById("mtransfer") 
-            let mredraw=document.getElementById("mredraw") 
+            let mtransfer=document.getElementById("mtransfer")  
             let mairtime=document.getElementById("mairtime") 
             let mdata=document.getElementById("mdata") 
             let mtv=document.getElementById("mtv") 
             let melectricity=document.getElementById("melectricity") 
             let mremitta=document.getElementById("mremitta") 
             let missues=document.getElementById("missues") 
-            let msettings=document.getElementById("msettings") 
+            let msettings=document.getElementById("msettings2") 
 
             switch (routes) {
                 case '/dashboard':
@@ -59,10 +56,7 @@ export default {
                 case '/services/transfer':
                 transfer.classList.add('classList','shadow-sm') 
                 mtransfer.classList.add('mclassList','shadow-sm') 
-                    break;
-                case '/services/redraw':
-                redraw.classList.add('classList','shadow-sm') 
-                mredraw.classList.add('mclassList','shadow-sm') 
+                     
                     break;
                 case '/services/airtime':
                 airtime.classList.add('classList','shadow-sm') 
@@ -94,7 +88,7 @@ export default {
                     break;
                 case '/settings':
                 settings.classList.add('classList','shadow-sm') 
-                msettings.classList.add('classList','shadow-sm') 
+                msettings.classList.add('mclassList','shadow-sm') 
                     break; 
                 default:
                     break;

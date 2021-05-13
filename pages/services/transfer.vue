@@ -1,52 +1,53 @@
 <template>
     <div class="pt-5 mt-3 px-md-5">
-         <div class="row m-0 ">
+         <div class="row m-0 px-0 ">
             <loader v-if="loading"/>
 
-             <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
+             <div class="col-md-4  p-md-3  ml-md-auto  d-md-block d-none">
               <sidebar/>
              </div>
-             <div class="col-md-7 p-md-3 px-lg-5 mr-auto  pb-5">
+             <div class="col-md-7 p-md-3 px-lg-5 mr-md-auto   px-0  pb-5">
                  
-                <div class="alert alert-warning alert-dismissible p-2" role="alert"> 
+                <div class="alert alert-warning alert-dismissible p-2 mx-1 mx-md-0" role="alert"> 
                     <strong><i class="fa fa-bell-o" aria-hidden="true"></i>
                      Note:
-                    </strong> Bank Transfer only works for <b><u>Nigerian</u></b> bank account for now. Other countries are comming soon
+                    </strong> Bank Transfer only works for <b><u>Nigerian</u></b> bank account for now. Other countries are comming soon.
                 </div>  
-                <ul class="nav nav-pills m-0" id="pills-tab" role="tablist">
-                    <li class="nav-item border-top">
-                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Bank Transfer</a>
+                <ul class="nav nav-pills m-0 px-3" id="pills-tab" role="tablist">
+                    <li class="nav-item ">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Bank</a>
                     </li>
-                    <li class="nav-item border-left border-top">
-                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Wallet Transfer</a>
+                    <li class="nav-item ">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Wallet</a>
                     </li> 
                   </ul>
                   <!-- bank -->
                   <div class="tab-content " id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div class="row"> 
-                            <div class="col-12  px-3 pb-3 mt-0 col-lg-10 "> 
-                               <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" style="border-top-left-radius: 0 !important;">
-                                <small class="tmuted">Transfer to Bank</small>  
+                        <div class="row m-0   "> 
+                            <div class="col-12  px-1 pb-3 mt-0  "> 
+                               <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" >
+                                <span class="text-white">Transfer to Bank</span>  
                                 <form @submit.prevent="transferMoney()">   
-                                   <div class="border-0 text-light pb-2">
-                                       <span>Amount(₦)</span>   
-                                     <input  type="number" id="amount" autocomplete="off" min="1" step="1" class="form-control p-3 border-info" v-model.number="transfer.amount" placeholder="₦100 above..." @input="getAmount()">  
+                                  <div v-if="!bankNext">
+                                    <div class="border-0 text-light pb-2">
+                                       <small class="tmuted">Amount(₦)</small>   
+                                     <input  type="number" id="amount" autocomplete="off" min="1" step="1" class="form-control p-4 border-info" v-model.number="transfer.amount" placeholder="₦100 above..." @input="getAmount()">  
                                      </div>  
        
                                    <div class="border-0 text-light pb-2">
-                                     <span>Account Number </span>  
-                                   <input type="text" @input="validateBank()" maxlength="10" minlength="10"  class="form-control p-3 border-info" v-model="transfer.account_number" placeholder="Beneficiary" > 
+                                     <small class="tmuted">Account Number </small>  
+                                   <input type="text" @input="validateBank()" maxlength="10" minlength="10"  class="form-control p-4 border-info" v-model="transfer.account_number" placeholder="Beneficiary" > 
                                    </div>  
                                    <div class="border-0 text-light pb-2"> 
                                      <div class="form-group m-0">  
-                                         <label for="my-select">Bank Name  
-                                         <div v-if="bankLoading" class="spinner-border text-light border-1" style="width: 1rem !important;height:1rem !important;" role="status">
+                                         <small class="tmuted">Bank Name  
+                                         <div v-if="bankLoading" class="spinner-border text-light border-1 " style="width: 1rem !important;height:1rem !important;" role="status">
                                              <span class="sr-only">Loading...</span>
                                          </div>
                                          <small v-if="bankError" @click="getBanks()" class="fa fa-refresh link text-light" aria-hidden="true"></small>
-                                         </label>
-                                         <select id="my-select" @change="validateBank()" v-model="selectedBanks"   class="form-control link border-info" name="" >
+                                         </small>
+                                         <select id="my-select" @change="validateBank()" v-model="selectedBanks"   class="custom-select link border-info" style="height:3rem !important;" name="" >
                                              <option value="">
                                                  Select Bank
                                              </option>
@@ -61,14 +62,23 @@
                                          <div v-if="validateAccLoading" class="spinner-border text-light border-1" style="width: 1rem !important;height:1rem !important;" role="status">
                                              <span class="sr-only">Loading...</span>
                                          </div>
-                                         <small @click="" v-if="validateAccErr" class="text-warning">Can`t resolve accounts details... try again <i class="fa fa-refresh link text-dark" aria-hidden="true"></i></small> 
+                                         <small  v-if="validateAccErr" class="text-warning">Can`t resolve accounts details... try again <i @click="getBanks()" class="fa fa-refresh link text-dark" aria-hidden="true"></i></small> 
                                   </div> 
                                   </div>  
                                   <div class="form-group text-white">
-                                      <label for="my-textarea">Status</label>
-                                      <textarea id="my-textarea" class="form-control" v-model="transfer.narration" name="" rows="3" placeholder="Add some information"></textarea>
+                                      <small class="tmuted">Description</small>
+                                      <textarea id="my-textarea" class="form-control" v-model="transfer.narration" name=""  rows="4" placeholder="Add some information"></textarea>
                                   </div>
-                                   <button  type="submit" class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Transfer</button>
+                                   <button @click="checkNext('bank')" v-if="bankNext" class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Next</button>
+                                </div>
+
+                                <div class="border-0 text-light py-2" v-else>
+                                    <small class="tmuted">Transaction pin</small>   
+                                  <input @input="checkProceed('bank')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-3 mb-2 border-info" v-model="transaction_pin" >  
+                                 
+                                  <button @click="bankNext=false"  type="submit" class="btn btn-info btn-sm mt-1 topup rounded-l shadow"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                  <button v-if="procceed"  type="button" data-toggle="modal" data-target="#pin"   class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Proceed</button>
+                                </div>
                                  </form> 
                                </div> 
                           </div>  
@@ -76,20 +86,20 @@
                     </div>
                     <!-- wallet -->
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                        <div class="row"> 
-                            <div class="col-12  px-3 pb-3 mt-0 col-lg-10 "> 
-                               <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" style="border-top-left-radius: 0 !important;">
-                                <small class="tmuted">Transfer to Wallet</small>  
+                        <div class="row m-0"> 
+                            <div class="col-12  px-1  pb-3 mt-0 "> 
+                               <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" >
+                                <span class="text-white">Transfer to Wallet</span>  
                                 <form @submit.prevent="transferMoney()">   
                                 <div v-if="!next">
                                     <div class="border-0 text-light pb-2">
-                                        <span>Amount(₦)</span>   
-                                      <input  type="number" id="amount" autocomplete="off" min="1" step="1" class="form-control p-3 border-info" v-model.number="walletTransfer.amount" placeholder="₦100 above..." @input="getAmount()">  
+                                        <small class="tmuted">Amount(₦)</small>   
+                                      <input  type="number" id="amount" autocomplete="off" min="1" step="1" class="form-control p-4 border-info" v-model.number="walletTransfer.amount" placeholder="₦100 above..." @input="getAmount()">  
                                       </div>  
         
                                     <div class="border-0 text-light pb-2">
-                                      <span>Wallet ID</span>  
-                                    <input type="text" @input="validateWallet()"   minlength="12" maxlength="12"  class="form-control p-3 border-info" v-model="walletTransfer.wallet_id" placeholder="Beneficiary" > 
+                                      <small class="tmuted">Wallet ID</small>  
+                                    <input type="text" @input="validateWallet()"   minlength="12" maxlength="12"  class="form-control p-4 border-info" v-model="walletTransfer.wallet_id" placeholder="Beneficiary" > 
                                     <div class="border-0  text-light p-0 m-0">   
                                      <div class="border-0 text-light p-0 m-0" >  
                                          <small v-if="walletTransfer.user" style="color: #74e9ef!important">{{ walletTransfer.user }}</small> 
@@ -101,15 +111,15 @@
                                     </div>  
                                    
                                    <div class="form-group text-white">
-                                       <label for="my-textarea">Description</label>
-                                       <textarea id="my-textarea" class="form-control" v-model="walletTransfer.status" name="" rows="3" placeholder="Add some information"></textarea>
+                                       <small class="tmuted">Description</small>
+                                       <textarea id="my-textarea" class="form-control" v-model="walletTransfer.status" name="" rows="4" placeholder="Add some information"></textarea>
                                    </div>
-                                    <button @click="checkNext('wallet')"  type="button" class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Next</button>
+                                    <button @click="checkNext('wallet')" v-if="walletNext"  type="button" class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Next</button>
                                 </div>
                                 
                                 <div class="border-0 text-light py-2" v-else>
-                                    <span>Transaction pin</span>   
-                                  <input @input="checkProceed('wallet')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-3 mb-2 border-info" v-model="transferData.transaction_pin" >  
+                                    <small class="tmuted">Transaction pin</small>   
+                                  <input @input="checkProceed('wallet')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-3 mb-2 border-info" v-model="transaction_pin" >  
                                  
                                   <button @click="next=false"  type="submit" class="btn btn-info btn-sm mt-1 topup rounded-l shadow"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                   <button v-if="procceed"  type="button" data-toggle="modal" data-target="#pin"   class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Proceed</button>
@@ -122,14 +132,11 @@
                   </div> 
                 
                 <!-- Modal -->
-                <div class="modal fade" id="pin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content ">
-                            <div class="modal-header">
-                                <h6 class="modal-title">Transfer Details</h6>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                <div class="modal fade" id="pin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document" >
+                        <div class="modal-content " >
+                            <div class="modal-header" v-if="!transferSuccess && !transferError">
+                                <h6 class="modal-title">Transfer Details</h6> 
                             </div>
                             <div class="modal-body p-1 p-md-2">
                                 <div class="row m-0 data" v-if="!transferError && !transferSuccess" >
@@ -153,19 +160,23 @@
                                     </div>
                                 </div>
                                 <div class="error p-0 m-0" v-if="transferError">
-                                <div class="alert alert-danger m-0" role="alert">
-                                    <strong>Insufficent fund Or invalid Transaction pin</strong>
-                                    Please confirm your details and try again later! 
+                                <div class="alert alert-danger m-0 text-center" role="alert">
+                                    <strong>{{ ErrorInfo }}</strong> <br>
+                                    <button class="btn btn-sm shadow  border-top-dark" @click="retry()">Try Again</button> 
+
+
                                 </div>
                                 </div>
-                                <div class="success p-0 m-0" v-if="transferSuccess && !transferError">
-                                    <div class="alert alert-info m-0" role="alert">
-                                        <img src="~assets/images/success.png" alt="">
-                                        <strong>Transaction Successful</strong> 
+                                <div class="success text-center p-0 m-0" v-if="transferSuccess && !transferError">
+                                    <img src="~assets/images/success.png" class="my-3" style="width:70px;height: 70px;" alt=""> 
+                                    <div class="alert alert-success m-0" role="alert">
+                                        <strong>Transaction Successful</strong>   <br>
+                                        <button class="btn btn-sm shadow" @click="retry()">Back</button> 
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="border-top text-left p-2">
+                            <div class="border-top text-left  p-2" v-if="!transferSuccess && !transferError">
                                 <button type="button" class="btn btn-secondary topup btn-sm shadow rounded-l" data-dismiss="modal">Cancel</button>
                                 <button type="button" @click="storeTransfer()" class="btn  btn-info btn-sm shadow rounded-l">Transfer</button>
 
@@ -197,7 +208,7 @@ export default {
             account_bank:'',
             account_number:"",
             amount:"",
-            narration:"",
+            narration:" ",
             reference:"",
             currency:"NGN",  
             reference:"",
@@ -207,15 +218,18 @@ export default {
             }
         }, 
         walletTransfer:{
-            amount:"100",
-            wallet_id:"W-1620390569",
-            status:"Testing",
+            amount:"",
+            wallet_id:"",
+            status:"",
             user:''
         },
         Id_num:moment().format('yyyymmdhhmmss'),
         banks:[],
         next:false,
+        ErrorInfo:'',
         bankError:false,
+        walletNext:false,
+        bankNext:false,
         transferSuccess:false,
         transferError:false,
         bankLoading:false,
@@ -224,6 +238,7 @@ export default {
         validateAccLoading:false,
         loadingUser:false,
         selectedBanks:'',
+        transaction_pin:'',
         flutterHeader:JSON.parse(localStorage.getItem('flutterHeader')), 
         loading:false,
         transferData:{
@@ -245,6 +260,10 @@ export default {
     this.getBanks();  
    },
    methods: {
+       retry()
+       {
+        location.reload()
+       },
     currencyFormat(amount)
          {
             return (amount).toLocaleString('en-US', { 
@@ -255,10 +274,10 @@ export default {
     checkProceed(data)
     {
         this.procceed=false 
-        if(this.transferData.transaction_pin.length == 4 && this.transferData.transaction_pin !='')
+        if(this.transaction_pin.length == 4 )
         {
-            if (data=='wallet') {
-                let w=this.walletTransfer
+            if (data=='wallet') { 
+            let w=this.walletTransfer 
                 this.transferData={
                     user_id:this.$auth.user.id, 
                     beneficiary:w.wallet_id,  
@@ -268,13 +287,26 @@ export default {
                     tx_ref:'tx_ref'+ this.Id_num,
                     flw_ref:'flw_ref' + this.Id_num,
                     transaction_id:'T_id' + this.Id_num, 
-                    user:w.user,
-                    bank_name:'Wallet_to_Wallet',
-                    transaction_pin:this.transferData.transaction_pin,
+                    user:w.user, 
+                    bank_name:'Wallet_to_Wallet' ,
+                    transaction_pin:this.transaction_pin 
+                    
             } 
             this.procceed=true  
             }
             else if (data=='bank'){
+            let t=this.transfer 
+                this.transferData={
+                    user_id:this.$auth.user.id, 
+                    beneficiary:account_number,  
+                    type:data,
+                    amount:t.amount, 
+                    status:t.narration,
+                    tx_ref:t.reference,
+                    flw_ref:'flw_ref' + this.Id_num,
+                    transaction_id:'T_id' + this.Id_num, 
+                    user:t.meta.first_name,   
+            };
                 this.procceed=true 
             }
         } 
@@ -304,9 +336,14 @@ export default {
             this.loading=!this.loading  
              if (error.response.status==400) {
                  this.transferError=true
+                 this.ErrorInfo="Insufficent fund"
              } 
+             else if(error.response.status==401) {
+                 this.transferError=true ;
+                 this.ErrorInfo="Invalid Transaction Pin" 
+             }  
              else{
-                 location.reload()
+                //  location.reload()
              }
         }) 
        },
@@ -316,8 +353,9 @@ export default {
         this.loadingUser=!this.loadingUser 
              this.$axios.get(`/api/get-wallet/${this.walletTransfer.wallet_id}`).then((res)=>{
               this.walletTransfer.user=res.data.data.user.name
-            this.loadingUser=!this.loadingUser
-
+              this.walletNext=true
+              this.loadingUser=!this.loadingUser
+             
         }).catch((error)=>{    
             this.walletTransfer.user="User not found!"
             this.loadingUser=!this.loadingUser   
@@ -378,8 +416,10 @@ export default {
                 },this.flutterHeader).then((res)=>{   
                     this.transfer.meta.first_name=res.data.data.account_name; 
                     this.transfer.account_bank=this.selectedBanks.code;  
+                    this.transferData.bank_name=this.selectedBanks.name;  
                     this.validateAccErr=false 
                     this.validateAccLoading=!this.validateAccLoading 
+                    this.bankNext=true
                 }).catch((error)=>{    
                    this.validateAccErr=true
                    this.validateAccLoading=!this.validateAccLoading

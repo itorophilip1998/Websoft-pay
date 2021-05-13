@@ -14,7 +14,9 @@
         <div  class="dropdown d-md-none d-inline ml-auto"  v-if="$auth.loggedIn && activeClick"> 
           <i class="fa fa-user text-info link p-2" aria-hidden="true"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i> 
             <div class="dropdown-menu logoutPanel p-0 rounded-l" aria-labelledby="my-dropdown"> 
-              <span @click="logoutMe()" class="dropdown-item  text-center link py-3 rounded-l logoutItems" href="#">logout</span>
+              <nuxt-link to="/profile" class="dropdown-item  text-center link text-info   rounded-l p-1"><span class="text-info">Profile <i class="fa fa-user " aria-hidden="true"></i></span></nuxt-link>
+              <hr class="m-0 p-0 text-secondary">
+              <span @click="$auth.logout()" class="dropdown-item text-info text-center link p-1 rounded-l " ><span class="text-info">logout <i class="fa fa-sign-out " aria-hidden="true"></i></span></span>
             </div>
           </div> 
 
@@ -35,8 +37,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle " href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
               <div class="dropdown-menu bg-light border-0 shadow " aria-labelledby="dropdownId"> 
-                <span class="dropdown-item link"  @click="urlget('/services/transfer')"><i class="fa fa-money" aria-hidden="true"></i> <span>Transfer</span></span>
-                <span class="dropdown-item link" @click="urlget('/services/redraw')"><strike>N</strike>&ensp;<span>Redraw</span></span>
+                <span class="dropdown-item link"  @click="urlget('/services/transfer')"><i class="fa fa-money" aria-hidden="true"></i> <span>Transfer</span></span> 
                 <span class="dropdown-item link" @click="urlget('/services/airtime')"><i class="fa fa-phone" aria-hidden="true"></i>&ensp;<span>Buy Airtime</span></span>
                 <span class="dropdown-item link" @click="urlget('/services/data')"><i class="fa fa-globe" aria-hidden="true"></i>&ensp;<span>Buy Data</span></span>
                 <span class="dropdown-item link" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i> <span>Tv-cables Subscription</span></span>
@@ -59,7 +60,9 @@
           <div class="dropdown d-none d-md-inline"> 
           <i class="fa fa-user text-info link p-2" aria-hidden="true"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i> 
             <div class="dropdown-menu logoutPanel p-0 rounded-l" aria-labelledby="my-dropdown"> 
-              <span @click="$auth.logout()" class="dropdown-item  text-center link py-3 rounded-l logoutItems" href="#">logout</span>
+              <nuxt-link to="/profile" class="dropdown-item  text-center link text-info   rounded-l p-1"><span class="text-info">Profile <i class="fa fa-user " aria-hidden="true"></i></span></nuxt-link>
+              <hr class="m-0 p-0 text-secondary">
+              <span @click="$auth.logout()" class="dropdown-item text-info text-center link p-1 rounded-l " ><span class="text-info">logout <i class="fa fa-sign-out " aria-hidden="true"></i></span></span>
             </div>
           </div>
            

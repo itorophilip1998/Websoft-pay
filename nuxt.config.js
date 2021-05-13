@@ -9,7 +9,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'shortcut icon', type: 'image/x-icon', href: '/icon.png' }
+      { rel: 'shortcut icon', type: 'image/x-icon', href: '~assets/images/logo.png' }
        
     ]
   },

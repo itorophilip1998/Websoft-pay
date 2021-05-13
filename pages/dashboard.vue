@@ -1,15 +1,15 @@
 <template>
     <div class="pt-5 mt-3 px-md-5">
-         <div class="row m-0 ">
+         <div class="row m-0 px-0">
              <loader v-if="loading"/>
-             <div class="col-md-4  p-md-3  ml-auto  d-md-block d-none">
+             <div class="col-md-4  p-md-3  ml-md-auto  d-md-block d-none">
               <sidebar/>
              </div>
-             <div class="col-md-7 p-md-3 px-lg-5 mr-auto  ">
-                 <div class="row"> 
-                     <div class="col-12  p-3 ">  
+             <div class="col-md-7 p-md-3 px-lg-5 mr-md-auto  px-0">
+                 <div class="row m-0 px-0 mt-1"> 
+                     <div class="col-12  px-1  ">  
                         <div class="inactive" v-if="!account_status">
-                            <div class="alert alert-warning text-left fade show" role="alert"> 
+                        <div class="alert alert-warning text-left fade show mx-1 mx-md-0" role="alert"> 
                                 <strong><i class="fa fa-bell-o" aria-hidden="true"></i> Account Update:</strong> Please your account is not activated and you cannot make transactions... 
                                 <a class="link text-dark d-block d-md-inline" data-toggle="modal"
                                   data-target="#activate"> <u>Activate now</u></a>  
@@ -33,7 +33,7 @@
                                    <span>Transaction Pin <small class="text-danger">*</small></span> 
                                  <input type="password"
                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                   maxlength="4" minlength="4"   class="form-control p-3 border-info" v-model.number="accounts.transaction_pin" placeholder="Secure Pin(4 digits) not bank pin" >
+                                   maxlength="4" minlength="4"   class="form-control p-3 border-info" v-model="accounts.transaction_pin" placeholder="Secure Pin(4 digits) not bank pin" >
                                  <small id="errorNetwork" class="form-text text-danger" v-if="error.transaction_pin">{{ error.transaction_pin[0] }}</small>
                                  </div>
 
@@ -89,7 +89,7 @@
                          </div>
                             <input type="text" ref="money" :value="'₦'+ currencyFormat($auth.user.accounts.account_balance)" class="form-control  border-0 moneyText pl-0" readonly > 
                             <button data-toggle="modal" data-target="#modelId" class="btn btn-info btn-sm topup  shadow rounded-l w-25">Top-up</button>
-                            <button  @click="$router.push('/services/redraw')" class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
+                            <button  data-toggle="modal" data-target="#redraw"  class="btn bg-secondary btn-info text-white border-0  shadow btn-sm ml-3 rounded-l w-25">Redraw</button>
                         </div> 
                         
                         <!-- Topup -->
@@ -109,27 +109,56 @@
                                 </div>
                             </div>
                         </div>
+                          <!-- Redraw -->
+                          <div class="modal fade" id="redraw" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content"> 
+                                    <div class="modal-body">
+                                        <form @submit.prevent="redrawMoney()" > 
+                                            <div class="money" v-if="!redraw.next">
+                                                <div class="border-0"> 
+                                                    <span>Amount(₦)</span> 
+                                                </div>
+                                                <input  type="number" autocomplete="off" id="amount" min="1" step="1" class="form-control p-4 border-info" v-model.number="redraw.amount" placeholder="₦100 above..." @input="getAmount()"> 
+                                                 <small id="errorNetwork" class="form-text text-danger " style="display: none;">Poor/No Internet Connection... try again</small> 
+                                                <button type="button" @click="redraw.next =!redraw.next" class="btn btn-info btn-sm mt-2 rounded-l shadow" v-if="btn">Proceed</button>
+
+                                            </div>
+                                            <div class="proceed" v-else>
+                                                <div class="border-0"> 
+                                                    <span>Transaction Pin</span> 
+                                                </div>
+                                             <input  type="text" autocomplete="off"  class="form-control p-4 border-info" v-model="redraw.transaction_pin" placeholder="Enter Transaction Pin" >  
+                                           <button type="submit" class="btn btn-info btn-sm mt-2 rounded-l shadow" v-if="redraw.transaction_pin.length==4">Redraw</button>
+
+                                            </div>
+                                         
+                                        </form>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
                         
 
                    </div> 
-                   <div class="col-12   mt-3 pb-5 mb-5">  
+                   <div class="col-12   mt-3 px-1 pb-5 mb-5">  
                     <div class="transaction shadow border-info bg-info text-white border rounded-lg">
                         <h6 class="text-white border-white bg-info   border-bottom p-2 text-center">Transaction Details</h6>
                          <table class="table  text-center text-dark " >
                              <thead  >
-                                 <tr scope="row" style="color: rgba(0, 0, 0, 0.555);">
+                                 <tr scope="row" style="color: rgba(85, 84, 84, 0.863);">
                                      <th scope="col">Beneficiary</th>
                                      <th scope="col">Type</th> 
                                      <th scope="col">Date</th>
                                  </tr>
                              </thead>
                              <tbody>
-                                 <tr class="ink paid" v-for="(item, index) in transactions" :key="index">
-                                     <td class="text-center link"  data-toggle="modal" :data-target="`#trans-${item.id}`">
+                                 <tr class="link paid" v-for="(item, index) in transactions" :key="index"  style="color: rgba(221, 237, 253, 0.863) !important;">
+                                     <td  class="text-center link"  data-toggle="modal" :data-target="`#trans-${item.id}`">
                                         <small><b> 
                                          <span v-if="item.status_from_transaction!='paid'">
                                               <s style='color:rgb(243, 9, 9)'>
-                                                <span style='color:rgb(224, 217, 217)' >{{ item.beneficiary }}</span>
+                                                <span style="color: rgba(85, 84, 84, 0.863);" >{{ item.beneficiary }}</span>
                                               </s>
                                         </span>
                                          <span v-else>{{ item.beneficiary }}</span>
@@ -137,26 +166,28 @@
                                       <!-- transactions -->  
                                 <div class="modal fade text-dark" :id="`trans-${item.id}`" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
-                                        <div class="modal-content"> 
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="my-modal-title">{{ item.beneficiary }}</h6>
-                                                <button class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                        <div class="modal-content modal-sm "> 
+                                            <div class="modal-header text-white bg-info text-center">
+                                                <h6 class="modal-title " id="my-modal-title ">{{ item.beneficiary_name }}</h6> 
                                             </div>
-                                            <div class="modal-body">
-                                               <ul class='text-left pl-0 ml-0'>
-                                                   <li><b>refNo:</b> {{ item.reference_no }}</li> 
-                                                   <li><b>amount:</b> {{ currencyFormat(item.amount) }}</li> 
-                                                   <li><b>status_from_transaction:</b> {{ item.status_from_transaction }}</li> 
-                                                   <li><b>status:</b> {{ item.status }}</li> 
-                                                   <li><b>transaction_id:</b> {{ item.transaction_id }}</li> 
-                                                   <li><b>transaction_type:</b> {{ item.transaction_type }}</li> 
-                                                   <li><b>date:</b> {{ fulltime(item.created_at) }}</li> 
-                                                   <li><b>status_from_user:</b> <br><span class=" d-block p-1">{{ item.status_from_user }}</span></li> 
-
+                                            <div class="modal-body pb-0">
+                                               <ul class='text-left text-muted pl-0 ml-0 mb-0 pb-0'>
+                                                   <li><b>Beneficiary:</b> {{ item.beneficiary }}</li> 
+                                                   <li><b>Reference No:</b> {{ item.reference_no }}</li> 
+                                                   <li><b>Amount:</b> {{ currencyFormat(item.amount) }}</li> 
+                                                   <li><b>Transaction Status:</b> {{ item.status_from_transaction }}</li> 
+                                                   <li><b>Status:</b> {{ item.status }}</li> 
+                                                   <li><b>Transaction ID:</b> {{ item.transaction_id }}</li> 
+                                                   <li><b>Transaction Type:</b> {{ item.transaction_type }}</li> 
+                                                   <li><b>Date:</b> {{ fulltime(item.created_at) }}</li> 
+                                                   <li ><b>Description:</b>{{ item.status_from_user }}</li>  
                                                </ul>
                                             </div> 
+                                            <div class="modal-footer bg-info text-white p-1">
+                                                <button class="text-white btn btn-sm shadow" data-dismiss="modal" aria-label="Close">
+                                                    Close
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -188,6 +219,11 @@ export default {
    },
    data() {
        return { 
+        redraw:{
+            amount:"",
+            transaction_pin:"",
+            next:false
+        },
         seeMoney:false,
         btn:false,
         validateAccErr:false,
@@ -222,6 +258,9 @@ export default {
     this.account_status=this.$auth.user.accounts.account_status
    },
    methods: { 
+    redrawMoney(){
+        console.log('Payment in Progress')
+    }  ,
          currencyFormat(amount)
          {
             return (amount).toLocaleString('en-US', { 
@@ -233,7 +272,7 @@ export default {
             return moment(time).format('MM/DD/YY');
         },
         fulltime(time) {
-            return moment(time).format('MMMM Do YYYY, h:mm a');
+            return moment(time).format(' Do MMMM YYYY, h:mm a');
         },
        getTransactions()
        {
@@ -351,7 +390,7 @@ export default {
      },
     getAmount()
     { 
-         (this.amount >= 100)? this.btn=true:this.btn=false;
+         (this.amount >= 100 || this.redraw.amount >= 100)? this.btn=true:this.btn=false;
            var inputBox = document.getElementById("amount"); 
                 var invalidChars = [
                 "-",
