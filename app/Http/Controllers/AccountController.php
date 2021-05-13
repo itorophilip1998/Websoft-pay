@@ -37,7 +37,9 @@ class AccountController extends Controller
  
     public function getUser($id)
     {
-        $data=Account::where('wallet_id',$id)->with('user')->first();   
+        $data=Account::where('wallet_id',$id)
+        ->where('user_id','!=',auth()->user()->id)
+        ->with('user')->first();   
         if(!$data)
         {
         return response()->json(['message' => 'Details not found','data'=> $data],404);  

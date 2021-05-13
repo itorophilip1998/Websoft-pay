@@ -31,9 +31,9 @@ class TopUpController extends Controller
         $paid=Transactions::create([ 
              'user_id'=>$topUp->user_id,
              'account_id'=>auth()->user()->accounts()->pluck('id')[0],
-             'beneficiary'=>auth()->user()->accounts()->pluck('account_name')[0],
-             'beneficiary_name'=>auth()->user()->pluck('name')[0],
-             'transaction_type'=>'top-up',
+             'beneficiary'=>auth()->user()->accounts()->pluck('account_number')[0],
+             'beneficiary_name'=>auth()->user()->name,
+             'transaction_type'=>'topup',
              'amount'=>$topUp->amount,
              'status_from_user'=>"my top up transaction",
              'status_from_transaction'=>'paid',
