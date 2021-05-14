@@ -13,9 +13,9 @@
                          <div class="form-group">
                           <small class="tmuted">Two Factor Authentication</small> 
                           <div class="form-check">
-                              <input id="my-input" @click="settings.tfa=!settings.tfa" class="form-check-input link" type="checkbox" name="" value="true">
-                              <label for="my-input" v-if="settings.tfa" class="form-check-label text-white">Enabled</label>
-                              <label for="my-input" v-else class="form-check-label text-white">Disabled</label>
+                              <input  @click="settings.tfa=!settings.tfa" class="form-check-input link" type="checkbox" name="tfa" id="tfa" value="true">
+                              <label for="tfa" v-if="settings.tfa" class="form-check-label text-white link">Enabled</label>
+                              <label for="tfa" v-else class="form-check-label text-white link">Disabled</label>
                           </div>
                          </div>
                          <div class="form-group">
@@ -23,9 +23,9 @@
 
                           <small class="tmuted">Notify me when ever i signin</small> 
                           <div class="form-check">
-                              <input id="my-input" @click="settings.loggedinNotify=!settings.loggedinNotify" class="form-check-input link" type="checkbox" name="" value="true">
-                              <label for="my-input" v-if="settings.loggedinNotify" class="form-check-label text-white">Enabled</label>
-                              <label for="my-input" v-else class="form-check-label text-white">Disabled</label>
+                              <input  @click="settings.loggedinNotify=!settings.loggedinNotify" class="form-check-input link" type="checkbox" name="loggedinNotify" id="loggedinNotify" value="true">
+                              <label for="loggedinNotify" v-if="settings.loggedinNotify" class="form-check-label text-white link">Enabled</label>
+                              <label for="loggedinNotify" v-else class="form-check-label text-white link">Disabled</label>
                           </div>
                          </div>
                          <div class="form-group">
@@ -33,30 +33,43 @@
 
                           <small class="tmuted">Save all my signin logs</small> 
                           <div class="form-check">
-                              <input id="my-input" @click="settings.loggedinSave=!settings.loggedinSave" class="form-check-input link" type="checkbox" name="" value="true">
-                              <label for="my-input" v-if="settings.loggedinSave" class="form-check-label text-white">Enabled</label>
-                              <label for="my-input" v-else class="form-check-label text-white">Disabled</label>
+                              <input   @click="settings.loggedinSave=!settings.loggedinSave" class="form-check-input link" type="checkbox" name="loggedinSave" id="loggedinSave" value="true">
+                              <label for="loggedinSave" v-if="settings.loggedinSave" class="form-check-label text-white link">Enabled</label>
+                              <label for="loggedinSave" v-else class="form-check-label text-white link">Disabled</label>
                           </div>
-                          <small class="tmuted">View sll my singin Logs</small> 
+                          <hr class="p-0 m-0 my-1"> 
+                          <small class="tmuted d-block">View my security logs</small> 
                           <button type="button" @click="viewLogs=!viewLogs" class="btn btn-sm shadow text-white topup rounded-l">
                               <span v-if="!viewLogs">View Logs</span>
                               <span v-else>Hide Logs</span>
                           </button> 
-                          <div class="logs bmuted p-3"  v-if="viewLogs">
-                              <h6>Your Signin details</h6>
-                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block"> #Phone4 in lagos on 3/3/20 30pm </small>
+                          <div class="logs bmuted py-3 pl-1 mt-2"  v-if="viewLogs">
+                              <h6 class="border-secondary "><u>Your Security Logs</u></h6>
+                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
                           </div>
                          </div>
                          <div class="form-group ">
                           <hr class="p-0 m-0 mt-1"> 
-                          <small class="tmuted">Change Transaction Pin</small> 
+                          <small class="tmuted">Change Transaction Pin/Forgot Pin</small> 
                             <div class="form-group"> 
-                              <input type="text" v-model="settings.Opin"  class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Transaction Pin">
-                              <input type="text" v-model="settings.Npin" v-if="settings.Opin.length==4" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="New Transaction Pin">
-                              <input type="text" v-model="settings.Cpin" v-if="settings.Npin.length==4" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Transaction Pin">
+                                 <div class="form-check text-white">
+                                     <label class="form-check-label link">
+                                     <input type="radio" @click="settings.Fpin=true" class="form-check-input link" name="pin" id="pintru" value="checkedValue" checked>
+                                     I have Pin
+                                   </label>
+                                 </div>
+                                 <div class="form-check text-white">
+                                     <label class="form-check-label link">
+                                     <input type="radio" @click="settings.Fpin=false" class="form-check-input link" name="pin" id="npintru" value="checkedValue" >
+                                    Forgoten Pin
+                                   </label>
+                                 </div>
+                              <input type="text" v-model="settings.Opin"  v-if="!settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Transaction Pin">
+                              <input type="text" v-model="settings.Npin" v-if="settings.Opin.length==4 || settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="New Transaction Pin">
+                              <input type="text" v-model="settings.Cpin" v-if="settings.Npin.length==4 && settings.Opin.length==4 || settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Transaction Pin"> 
                             </div>                      
                          </div>
                          <div class="form-group">
@@ -65,12 +78,21 @@
                             <div class="form-group"> 
                               <input type="text" v-model="settings.Opass"  class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Password">
                               <input type="text" v-model="settings.Npass" v-if="settings.Opass" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="New Password"> 
-                              <input type="text" v-model="settings.Cpass" v-if="settings.Cpass && settings.Opass" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Password"> 
+                              <input type="text" v-model="settings.Cpass" v-if="settings.Opass && settings.Npass" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Password"> 
+                              <nuxt-link to="/auth/reset-verify" class="link text-white btn btn-sm shadow mt-1">Forgot Password</nuxt-link>
                             </div>                      
                          </div>
-                         <button type="button" class="btn btn-info btn-sm mt-2 topup rounded-l shadow">Save Changes</button>
+                         <div class="theme text-white "> 
+                          <hr class="p-0 m-0 my-1">  
+                          <small class="tmuted d-block mb-2">Control Theme</small> 
 
-                         
+                             <i class="fa fa-sun-o themeIcon btn btn-sm  shadow btn-light text-muted" aria-hidden="true">Light Theme</i>
+                             <i class="fa fa-moon-o themeIcon btn btn-sm shadow btn-dark text-muted" aria-hidden="true">Dark Theme</i>
+                        </div>
+                        <div class="form-group p-1">
+                            <button type="button" class="btn btn-info btn-sm  topup rounded-l shadow float-right ">Save Changes</button> 
+
+                        </div>
                         </div>
 
                    </div>  
@@ -98,6 +120,7 @@ export default {
             loggedinNotify:false,
             loggedinSave:false,
             tfa:false,
+            Fpin:false, 
             Opin:'',
             Npin:'',
             Cpin:'',

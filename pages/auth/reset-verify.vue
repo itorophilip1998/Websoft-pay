@@ -45,7 +45,7 @@
 <script>   
   import loader from '@/components/loader'
 export default { 
-    auth: 'guest',
+    auth: false,
     components:{ 
         loader
     },
