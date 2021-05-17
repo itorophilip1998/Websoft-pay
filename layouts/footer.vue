@@ -12,9 +12,16 @@
               local bank and across the world. Websoft-pay is a product 
               of websoft company.
               </p>
+              <p>
+                <form >
+                  <label for="email" class="tmuted pl-2">Subscribe For Daily Updates></label>
+                  <input class="form-control p-4 rounded-pill shadow-sm" type="text" id="email" name="email" placeholder="Email address">
+                  <button class="btn btn-info rounded-pill shadow subBtn">Send</button>
+                </form>
+              </p>
              </div>
              <div class="col-md-2 pb-3">
-              <h6 class="text-info pl-3">Contact Us</h6>
+              <h6 class="text-info pl-3">Contact</h6>
 
                <ul class="p-0 footer">
                  <li>
@@ -38,9 +45,21 @@
                 <nuxt-link class="dropdown-item" to="/services/electricity"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i>&ensp; <span>Electricity Subscription</span></nuxt-link>
                 <nuxt-link class="dropdown-item" to="/services/remitta"><strike>(R)</strike> Remitta</nuxt-link>
                 </div>
+               
            </div>
+           
         </div>
+        <div class="col-12 border-top text-center bg-info text-white p-2">
+          Copyright <i class="fa fa-copyright" aria-hidden="true"></i>2021 by Websoft
+       </div>
        </footer>
     </div>
 </template>
  
+<style scoped>
+  .subBtn{
+    margin-top: -44px;
+    position: absolute;
+    right: 20px; 
+  }
+</style>

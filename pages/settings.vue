@@ -86,8 +86,14 @@
                           <hr class="p-0 m-0 my-1">  
                           <small class="tmuted d-block mb-2">Control Theme</small> 
 
-                             <i class="fa fa-sun-o themeIcon btn btn-sm  shadow btn-light text-muted" aria-hidden="true">Light Theme</i>
-                             <i class="fa fa-moon-o themeIcon btn btn-sm shadow btn-dark text-muted" aria-hidden="true">Dark Theme</i>
+                             <DarkMode>
+                                <template v-slot="{ mode }">
+                                    <i v-show="mode === 'light'" class="fa fa-sun-o themeIcon btn btn-sm  shadow btn-light text-muted" aria-hidden="true"> Light Theme</i>
+                                    <i v-show="mode === 'dark'" class="fa fa-moon-o themeIcon btn btn-sm shadow btn-dark text-muted" aria-hidden="true"> Dark Theme</i>
+                                    <i v-show="mode === 'system'" class="fa fa-shirtsinbulk themeIcon btn btn-sm shadow btn-info" aria-hidden="true"> Default Theme</i>
+   
+                              </template>
+                              </DarkMode>
                         </div>
                         <div class="form-group p-1">
                             <button type="button" class="btn btn-info btn-sm  topup rounded-l shadow float-right ">Save Changes</button> 
@@ -105,13 +111,17 @@
 
 <script>
 import mfooter from '@/components/mobilefooter' 
-import sidebar from '@/components/sidebar' 
+import sidebar from '@/components/sidebar'; 
+import { DarkMode } from '@vue-a11y/dark-mode'
+
 export default {
 //   auth:false,
    components:
    {
        mfooter,
-       sidebar
+       sidebar,
+       DarkMode
+
    },
    data() {
        return { 
@@ -125,10 +135,13 @@ export default {
             Npin:'',
             Cpin:'',
             Opass:'',
-            Npass:'',
+            Npass:'',   
             Cpass:'',
         }
        }
+   },
+   mounted(){ 
+
    },
    methods: {
     

@@ -29,6 +29,7 @@
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@smartweb/vue-flash-message": "^0.6.10",
+    "@vue-a11y/dark-mode": "^1.1.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.9.1",

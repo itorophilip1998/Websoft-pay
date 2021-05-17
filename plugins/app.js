@@ -24,7 +24,7 @@ window.localStorage.setItem('flutterHeader',JSON.stringify(flutterHeader))
 import terms from '@/components/terms';
 import loader from '@/components/loader';
 import sidebar from '@/components/sidebar';
-import mfooter from '@/components/mobilefooter';  
+import mfooter from '@/components/mobilefooter'; 
 
 export default { 
 components:{

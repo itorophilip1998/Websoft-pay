@@ -212,7 +212,62 @@ input[type=number] {
     display: inline;
 
 }
+ 
+:root {
+    --bg: #fff !important;
+    --color: #333333 !important;
+  }
+  
+  html.dark-mode {
+    --bg: #232b32 !important;
+    --color: #fff !important;
+  }
+  
+  body{
+    background-color: var(--bg) !important;
+    color: var(--color) !important;
+  }
+.bgBackground{
+    background-image: url('~assets/images/bigImg.jpg');
+    background-size:cover;
+    height: 80vh;
+    background-attachment: fixed;
+}
+.bgOverlay{
+    width: 100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.8);
+    padding-top: 17% !important;
+}
+.bgtext{
+    color: whitesmoke;
+    font-family: 'Courier New', Courier, monospace;
+     font-weight: bold;
+}
+.bgsmalltext{
+    color: rgb(192, 186, 186);
+}
 
-.themeIcon{
-    /* font-size: 24px !important;  */
+@media screen and (max-width: 425px) {
+    .bgBackground{
+        background-image: url('~assets/images/bigImg4.jpg');
+    }
+    .bgOverlay{ 
+        background-color: rgba(0,0,0,0.7);
+    }
+    }
+    /* // Zoom effect */
+.zoom {
+    transition: transform .2s;
+  }
+
+  .zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1);
+    z-index: 2 !important;
+  }
+.testimonailsImg{
+    width:60px;
+    height:60px;
 }
