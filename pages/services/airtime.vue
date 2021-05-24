@@ -141,7 +141,12 @@ export default {
          },
        loadAirtime()
        {   
-            this.$axios.post('/api/verifypin',{'transaction_pin':this.transaction_pin}).then((res)=>{
+            this.$axios.post('/api/verifypin',
+            {
+            'transaction_pin':this.transaction_pin,
+            'checkbalance':true,
+            'budget':this.airtime.amount 
+            }).then((res)=>{
             this.airtime.reference='AT-'+moment(Date()).format('hhmmssmmm')
             this.loading=!this.loading 
                axios.post('/v3/bills', this.airtime,this.flutterHeader).then((res)=>{    

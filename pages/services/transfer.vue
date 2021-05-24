@@ -74,7 +74,7 @@
 
                                 <div class="border-0 text-light py-2" v-else>
                                     <small class="tmuted">Transaction pin</small>   
-                                  <input @input="checkProceed('bank')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-3 mb-2 border-info" v-model="transaction_pin" >  
+                                  <input @input="checkProceed('bank')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-4 mb-2 border-info" v-model="transaction_pin" >  
                                  
                                   <button @click="bankNext=false"  type="submit" class="btn btn-info btn-sm mt-1 topup rounded-l shadow"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                   <button v-if="procceed"  type="button" data-toggle="modal" data-target="#pin"   class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Proceed</button>
@@ -119,7 +119,7 @@
                                 
                                 <div class="border-0 text-light py-2" v-else>
                                     <small class="tmuted">Transaction pin</small>   
-                                  <input @input="checkProceed('wallet')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-3 mb-2 border-info" v-model="transaction_pin" >  
+                                  <input @input="checkProceed('wallet')"  type="password" autocomplete="off" maxlength="4" minlength="4" class="form-control p-4 mb-2 border-info" v-model="transaction_pin" >  
                                  
                                   <button @click="next=false"  type="submit" class="btn btn-info btn-sm mt-1 topup rounded-l shadow"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                   <button v-if="procceed"  type="button" data-toggle="modal" data-target="#pin"   class="btn btn-info btn-sm mt-1 topup rounded-l shadow">Proceed</button>

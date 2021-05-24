@@ -258,6 +258,7 @@ export default {
     this.account_status=this.$auth.user.accounts.account_status
    },
    methods: { 
+    
     redrawMoney(){
         console.log('Payment in Progress')
     }  ,

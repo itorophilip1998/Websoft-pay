@@ -30,6 +30,7 @@
 
                           <div class="airtime" v-if="!next">
                         <span class="text-white">Buy Data Bundle NG </span>
+                        {{ services }}
                             <div class="airtime text-white">
                                 <div class="form-group">
                                     <small class="tmuted">Network</small>
@@ -230,6 +231,7 @@ export default {
                ]
             },
         ],
+        services:[],
        }
    },
    computed:{
@@ -239,7 +241,18 @@ export default {
         })
     }
    },
+   mounted() {
+       this.getServices()
+   },
    methods: {
+    getServices()
+       {
+        axios.get('/v3/bill-categories' ,this.flutterHeader).then((res)=>{   
+                    this.services=res.data; 
+                   }).catch((error)=>{    
+                    console.log('Payment in Progress') 
+                }) 
+       }, 
     selectedBundleCheck()
     {
         this.airtime.amount=this.selectedBundle.price

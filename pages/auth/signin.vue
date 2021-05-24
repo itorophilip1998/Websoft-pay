@@ -7,13 +7,13 @@
             <h6 class="text-info">Welcome back!</h6>   
             <div class="form-group ">
                 <label for=""><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</label>
-                <input type="email" v-model="details.email" required class="form-control border-info " name="" id="" aria-describedby="emailHelpId" placeholder="Email">
+                <input type="email" v-model="details.email" required class="form-control shadow-sm  p-4" name="" id="" aria-describedby="emailHelpId" placeholder="Email">
                 <small id="emailHelpId" class="form-text text-danger" v-if="error.email">{{ error.email[0] }}</small>
               </div>
     
             <div class="form-group ">
                 <label for=""><i class="fa fa-lock" aria-hidden="true"></i> Password</label>
-                <input type="password"  v-model="details.password" required class="form-control border-info " name="" ref="password" aria-describedby="emailHelpId" placeholder="*******">
+                <input type="password"  v-model="details.password" required class="form-control  shadow-sm p-4" name="" ref="password" aria-describedby="emailHelpId" placeholder="*******">
                 <i v-if="!passwordCheckData" class="fa fa-eye link password-check  text-info" @click="passwordCheck('show')" aria-hidden="true"></i> 
                 <i  v-if="passwordCheckData" class="fa fa-eye-slash password-check  link text-info" @click="passwordCheck('open')" aria-hidden="true"></i>
                 <small id="emailHelpId" class="form-text text-danger" v-if="error.password">{{ error.password[0] }}</small>
@@ -101,12 +101,13 @@ export default {
          
          try {
             let res=  await this.$auth.loginWith('laravelJWT', { data: this.details})  
+           
             this.$swal({ 
                 icon: 'success',
                 text: "Logged In Succesfully👍",
                 showConfirmButton: false,
                 timer: 2500
-                })  
+                })   
 
             this.loading=!this.loading         
          } catch (error) {

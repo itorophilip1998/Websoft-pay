@@ -7,18 +7,18 @@
             <h6 class="text-info">Create Account</h6>
             <div class="form-group ">
                 <label for=""><i class="fa fa-user-o" aria-hidden="true"></i> Name</label>
-                <input type="text" minlength="5" maxlength="100"  v-model="details.name"  required class="form-control border-info" name="" id="" aria-describedby="emailHelpId" placeholder="Firstname Surname">
+                <input type="text" minlength="5" maxlength="100"  v-model="details.name"  required class="form-control shadow-sm p-4" name="" id="" aria-describedby="emailHelpId" placeholder="Firstname Surname">
                 <small id="emailHelpId" class="form-text text-danger" v-if="error.name">{{ error.name[0] }}</small>
               </div>
             <div class="form-group ">
                 <label for=""><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</label>
-                <input required type="email"  maxlength="100" v-model="details.email" class="form-control border-info" name="" id="" aria-describedby="emailHelpId" placeholder="Email">
+                <input required type="email"  maxlength="100" v-model="details.email" class="form-control shadow-sm p-4" name="" id="" aria-describedby="emailHelpId" placeholder="Email">
                 <small id="emailHelpId" class="form-text text-danger" v-if="error.email">{{ error.email[0] }}</small>
               </div>
 
             <div class="form-group ">
                 <label for=""><i class="fa fa-lock" aria-hidden="true"></i> Password</label>
-                <input @input="passCheckerF" required minlength="7" maxlength="15" v-model="details.password" type="password" class="form-control border-info" name="" ref="password" aria-describedby="emailHelpId" placeholder="minimum 7 characters">
+                <input @input="passCheckerF" required minlength="7" maxlength="15" v-model="details.password" type="password" class="form-control shadow-sm p-4" name="" ref="password" aria-describedby="emailHelpId" placeholder="minimum 7 characters">
                 <i v-if="!passwordCheckData" class="fa fa-eye link password-check  text-info" @click="passwordCheck('show')" aria-hidden="true"></i>
                 <i  v-if="passwordCheckData" class="fa fa-eye-slash password-check  link text-info" @click="passwordCheck('open')" aria-hidden="true"></i>
                 <Password v-if="passChecker" v-model="details.password" :strength-meter-only="true" :secureLength='5' /> 
