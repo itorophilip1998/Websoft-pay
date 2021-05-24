@@ -2,25 +2,24 @@ export default {
   ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'websoft-pay-frontend',
+    title: 'WebsoftPay',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'shortcut icon', type: 'image/x-icon', href: '~assets/images/logo.png' }
-       
+      { rel: 'icon', type:'image/png', href: '/icon.png' } 
     ]
   },
   pwa: {
     meta: {
-      title: 'websoft-pay',
+      title: 'Websoftpay',
       author: 'Itoro E. Philip',
     },
     manifest: {
-      name: 'Websoft-pay',
-      short_name: 'Websoft-pay',
+      name: 'Websoftpay',
+      short_name: 'Websoftpay',
       lang: 'en',
       display:'standalone',
       start_url:'/',

@@ -95,8 +95,8 @@
                               </template>
                               </DarkMode>
                         </div>
-                        <div class="form-group p-1">
-                            <button type="button" class="btn btn-info btn-sm  topup rounded-l shadow float-right ">Save Changes</button> 
+                        <div class="form-group p-1 pb-2">
+                            <button type="button" class="btn btn-info btn-sm   topup rounded-l shadow float-right ">Save Changes</button> 
 
                         </div>
                         </div>
@@ -140,8 +140,8 @@ export default {
         }
        }
    },
-   mounted(){ 
-
+   mounted(){
+    console.log(navigator.userAgent+"test")
    },
    methods: {
     

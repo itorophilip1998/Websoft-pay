@@ -8,7 +8,8 @@
                 <li class="dropdown-item link p-3 border" id="tv" @click="urlget('/services/tv')"><i class="fa fa-television" aria-hidden="true"></i>&ensp; <span>Tv-cables <span class="d-md-none d-lg-inline">Subscription </span></span></li>
                 <li class="dropdown-item link p-3 border" id="electricity" @click="urlget('/services/electricity')"><i class="fa fa-lightbulb-o ml-1" aria-hidden="true"></i> &ensp; <span>Electricity <span class="d-md-none d-lg-inline">Subscription</span></span></li>
                 <li class="dropdown-item link p-3 border" id="remitta" @click="urlget('/services/remitta')"><strike>(R)</strike>&ensp; Remitta</li>
-                <li class="dropdown-item link p-3 border" id="issues" @click="urlget('/issues')"><i class="fa fa-book" aria-hidden="true"></i> &ensp; Report Issues<span class="d-md-none d-lg-inline">/Errors</span></li>
+                <li class="dropdown-item link p-3 border" id="issues" @click="urlget('/issues')"><i class="fa fa-book" aria-hidden="true"></i> &ensp; Report Issues<span class="d-md-none d-lg-inline">/Errors</span>
+                </li>
                 <li class="dropdown-item link p-3 border" id="settings" @click="urlget('/settings')"><i class="fa fa-gear" aria-hidden="true"></i> &ensp; Settings</li>
     </ul>
 

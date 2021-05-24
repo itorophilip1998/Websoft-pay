@@ -9,7 +9,7 @@
                 <div class="row m-0"> 
                     <div class="col-12  px-1  pb-3 mt-0 "> 
                        <div class="money border shadow  bg-info rounded-l p-2 p-lg-3 pb-md-3" >
-                        <span class="text-white">Transfer to Wallet</span>  
+                        <span class="text-white">Report Issues/Errors</span>  
                         <form @submit.prevent="reportPost()">     
                            <div class="form-group text-white">
                                <small class="tmuted">Error Type</small>

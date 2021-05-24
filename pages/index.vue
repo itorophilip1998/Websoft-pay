@@ -1,6 +1,7 @@
 <template>
     <div class="mt-5">
-        
+      <loader v-if="loading"/>
+
    <main>
        <!-- background BG -->
      <div class="bgBackground">
@@ -17,7 +18,7 @@
                     </h3>
                     <span class="bgsmalltext text-justify d-block">
                         Pay your bills anytime, as long as you have a bank account to fund your wallet, you can buy/sell airtime, Subscribe Data/Tv/Electricity, Transfer/recieve money and generate remitta
-                    </span> 
+                    </span>
                      <nuxt-link to="/dashboard" class="btn btn-info shadow mt-2">
                         Get Started Now>
                      </nuxt-link>
@@ -39,9 +40,9 @@
                </div>
          </div>
           <div class="col-md-6 col-12 col-lg-4 mt-4 px-md-4" v-for="(item, index) in services" :key="index">
-                <div :class="`card shadow mx-3  rounded-l link zoom border-${item.color}`" @click="$router.push(item.link)" > 
+                <div :class="`card shadow mx-3  rounded-l link zoom border-${item.color}`" @click="$router.push(item.link)" >
                     <div class="card-body text-center ">
-                        <h5 class="card-icon "> 
+                        <h5 class="card-icon ">
                             <i :class="`${(item.icon=='rrr')? 'fa ':item.icon} text-${item.color}`" aria-hidden="true">
                                 <strike v-if="item.icon=='rrr'">(R)</strike>
                             </i>
@@ -54,42 +55,42 @@
                             Try Now
                         </nuxt-link>
                     </div> -->
-                   
+
                 </div>
-          </div> 
+          </div>
      </div>
 <!-- contact -->
-     <div id="contactus" class="section py-5 bg-light">
+     <div id="contactus" class="section py-5 bg-info">
         <div class="col-12 text-center p-2">
-            <div class="title d-inline  my-2 ">
-                <u>Let's Us Know!</u> 
+            <div class="title d-inline text-white  my-2 ">
+                <u>Let's Us Know!</u>
                 <p class="lead text-center m-0">Let us give you more details about the special app you want us. Please fill out the form below, we will attend to you!</p>
             </div>
         </div>
-        <div class="mx-md-5"> 
+        <div class="mx-md-5">
             <div class="row m-0">
-                <div class="col-xl-6 col-md-12 col-sm-12">
-                    <div class="contact_form"> 
-                        <form id="contactform"  action="/contact" method="post"> 
+                <div class="col-lg-6 col-md-12 col-sm-12 ">
+                    <div class="contact_form">
+                        <form id="contactform"  @submit.prevent="contactform()">
                             <div class="row m-0">
                                 <div class="form-group col-12">
-                                    <input type="text" name="name" id="first_name" class="form-control p-4 border-info" placeholder="FirstName LastName">
-                                </div> 
+                                    <input type="text" name="name" v-model="contact.name" class="form-control p-4 rounded-l border-info" placeholder="FirstName LastName" required>
+                                </div>
                                 <div class="form-group col-12">
-                                    <input type="email" name="email" id="email" class="form-control p-4 border-info" placeholder="Your Email">
-                                </div> 
+                                    <input type="email" name="email" v-model="contact.email" class="form-control p-4 rounded-l border-info" placeholder="Your Email" required>
+                                </div>
                                 <div class="col-12 form-group ">
-                                    <textarea class="form-control border-info" name="message" rows="8" placeholder="Give us more details.."></textarea>
+                                    <textarea class="form-control border-info" v-model="contact.message" rows="8" placeholder="Give us more details.." required></textarea>
                                 </div>
                                 <div class="text-left  form-group  col-12 pl-3">
-                                    <button type="submit" value="SEND"  id="submit" class="btn btn-info btn-radius btn-brd grd1 ">Submit</button>
+                                    <button type="submit" value="SEND"  id="submit" class="btn btn-dark rounded-l topup btn-radius btn-brd grd1 ">Submit</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div><!-- end col -->
-				<div class="col-xl-6 col-md-12  p-0 col-sm-12">
-						<div style="width: 100%"><iframe width="100%" height="411" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Ikot%20Ekpene%20-%20Abak%20Rd,%20Ukana+(School)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>
+				<div class="col-lg-6 col-md-12 rounded-l p-0 col-sm-12">
+						<div style="width: 100%" class="rounded-l" ><iframe class="rounded-l" width="100%" height="411" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Ikot%20Ekpene%20-%20Abak%20Rd,%20Ukana+(School)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>
 
 				</div>
             </div><!-- end row -->
@@ -98,13 +99,13 @@
 
 
        <!-- section testimonials -->
-       <section class="testimonials p-3  bg-info" id="testimonials">
+       <section class="testimonials p-3 d-none bg-secondary" id="testimonials">
         <div class="col-12 text-center p-2">
             <div class="title d-inline text-white  my-2 ">
-                <u>Testimonails!</u> 
+                <u>Testimonails!</u>
                 <p class="lead text-center m-0 ">Client Messages with testimonies!</p>
             </div>
-        </div> 
+        </div>
                  <div class="testimonails">
                      <div class="row content-justify-center">
                          <div class="col-md-4 col-sm-6 zoom  m-auto">
@@ -114,7 +115,7 @@
                                      <a href="~assets/images/testimonial5.jpg"> <img class="testimonailsImg rounded-circle" src="~assets/images/testimonial5.jpg" alt=""></a> Miracle Idiong</h6>
                                      <p class="card-text text-dark text-justify">
                                       Websoftpay has been good to me, No scam, you redraw when ever you want to redraw.
-                                         
+
                                      </p>
 
 
@@ -139,7 +140,7 @@
                                      <h6 class="card-title ">
                                      <a href="~assets/images/testimonial3.jpg"><img class="testimonailsImg rounded-circle" src="~assets/images/testimonial3.jpg" alt=""></a> Ubong Keyzz</h6>
                                      <p class="card-text text-dark">Cheap charge in every device i recharge, i enjoy websoftpay with all the features available.
-                                     
+
                                      </p>
 
                                    </div>
@@ -148,32 +149,41 @@
                      </div>
                  </div>
         </section>
-  
+
  </main>
-         <mfooter/> 
+         <mfooter/>
     </div>
-</template> 
+</template>
 <script>
-import mfooter from '@/components/mobilefooter' 
+import mfooter from '@/components/mobilefooter'
+import loader from '@/components/loader';
+
 export default {
-    auth: false, 
+    auth: false,
    components:
    {
-       mfooter
+       mfooter,
+       loader
    },
    data() {
        return {
+         loading:false,
+        contact:{
+          name:"",
+          email:"",
+          message:"",
+        },
         services:[
         {
                 name:"Transfer",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can transfer to any bank accounts or your friend's wallet(wallet to wallet transfer).",
                 link:'/services/transfer',
                 icon:'fa fa-money',
                 color:'info',
             },
             {
                 name:"Airtime",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can buy and sell airtime with websoft-pay, we provide mordern ways for airtime subscription.",
                 link:'/services/airtime',
                 icon:'fa fa-phone',
                 color:'danger',
@@ -181,34 +191,34 @@ export default {
             },
             {
                 name:"Data",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can buy data bundle with websoft-pay, we provide mordern ways for data subscription.",
                 link:'/services/data',
                 icon:'fa fa-globe',
                 color:'primary',
 
 
-            }, 
+            },
             {
                 name:"TV-cables",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can recharge your Gotv, Dstv, Startime and other tv cables with our tv cables subscription.",
                 link:'/services/tv',
                 icon:'fa fa-television',
                 color:'success',
 
 
             },
-             
-           
+
+
             {
                 name:"Remitta",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can generate a remitta(rrr) for any payment such as goverment or private business etc.",
                 link:'/services/remitta',
                 icon:'rrr',
-                color:'pink', 
+                color:'pink',
             },
             {
                 name:"Electricity",
-                details:"Animi quia eos maxime? Aliquid itaque nulla magni qui quidem dolorum id, asperiores recusandae eaque.",
+                details:"You can pay electricity bill of your appartment or elsewhere with our power subscription package.",
                 link:'/services/electricity',
                 icon:'fa fa-lightbulb-o',
                 color:'warning',
@@ -217,18 +227,46 @@ export default {
         ]
        }
    },
+
+   methods: {
+    contactform(){
+      this.loading=!this.loading
+        this.$axios.post('/api/contact-us',this.email).then((res)=>{
+          this.loading=!this.loading
+          this.$swal({
+                icon: 'success',
+                text: "We will get back to you soon!",
+                showConfirmButton: false,
+                timer: 2500
+                })
+                this.contact={
+          name:"",
+          email:"",
+          message:"",
+           }
+        }).catch((error)=>{
+          this.$swal({
+                icon: 'error',
+                text: error.response.data.message || "No Internet Service",
+                showConfirmButton: false,
+                timer: 2500
+                })
+             this.loading=!this.loading
+        })
+    },
+   },
 }
 </script>
 
-<style>
+<style scoped>
 .title{
     font-size: 25px;
     text-align: center;
     font-weight: bold;
-    color: var(--dark); 
+    color: var(--dark);
 }
 .card-icon{
-    font-size: 35px; 
+    font-size: 35px;
 }
 .text-pink{
     color:var(--purple)

@@ -64,8 +64,7 @@
               <hr class="m-0 p-0 text-secondary">
               <span @click="$auth.logout()" class="dropdown-item text-info text-center link p-1 rounded-l " ><span class="text-info">logout <i class="fa fa-sign-out " aria-hidden="true"></i></span></span>
             </div>
-          </div>
-           
+          </div> 
           </form>
         </div>
       </nav>
