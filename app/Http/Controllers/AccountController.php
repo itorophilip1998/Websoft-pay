@@ -29,9 +29,15 @@ class AccountController extends Controller
          ]);  
         $accounts=Account::find($id);  
         $accounts->update(
-            request()->except('transaction_pin') +
-            ['transaction_pin' => Hash::make(request()->transaction_pin)]
+            request()->except('transaction_pin')
          ); 
+        if(request()->transaction_pin==NULL){
+             $accounts->update(
+               ['transaction_pin' => Hash::make(request()->transaction_pin)]
+
+         ); 
+        }
+
         return response()->json(['message' => 'Successfully updated','data'=> $accounts],200); 
     }
  

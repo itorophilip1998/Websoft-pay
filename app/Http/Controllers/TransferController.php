@@ -112,6 +112,7 @@ class TransferController extends Controller
     }
     public function verifypin()
     {
+       
         $wallet=auth()->user()->accounts();
         $correct_pin=Hash::check(request()->transaction_pin, $wallet->pluck('transaction_pin')[0]);
         if (!$correct_pin) {
@@ -121,7 +122,18 @@ class TransferController extends Controller
                 'wallet'=>$wallet
             ];
            return response()->json($info, 401);
+        }  
+     
+        if(request()->checkbalance && request()->budget >= $wallet->pluck('account_balance')[0]){
+            $info=[
+                'message'=>"Insufficent fund",
+                'status'=>false,
+                'wallet'=>$wallet->pluck('account_balance')[0],
+                'budget'=>request()->budget
+            ];
+           return response()->json($info, 401); 
         }
+
         $data=[
             'message'=>"Correct Pin",
             'status'=>true,
