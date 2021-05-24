@@ -10,18 +10,18 @@
                
                  <div class="row m-0 p-1"> 
                     <ul class=" serviceUl text-center col-12  my-3 m-0 p-0">
-                        <h6 class="text-dark text-center" v-if="!airtime.name">Network Available </h6>
+                        <h6 class="text-dark text-center" >Network Available </h6>
                         <!-- <h6 class="text-dark text-center" v-else>{{ airtime.name }} Selected</h6> -->
-                        <li class="mx-md-2" @click="airtime.name='MTN'" >
+                        <li class="mx-md-2" >
                            <img src="~/assets/images/mtn.png" class="serviceLogo shadow" alt="">   
                         </li>
-                        <li class="mx-md-2" @click="airtime.name='AIRTLE'" >
+                        <li class="mx-md-2" >
                            <img src="~/assets/images/airtel.png"  class="serviceLogo shadow"alt="">   
                         </li>
-                        <li class="mx-md-2" @click="airtime.name='GLO'" >
+                        <li class="mx-md-2"  >
                            <img src="~/assets/images/glo.jpeg" class="serviceLogo shadow" alt="">   
                         </li>
-                        <li class="mx-md-2" @click="airtime.name='9MOBILE'" >
+                        <li class="mx-md-2" >
                            <img src="~/assets/images/9mobile.jpeg" class="serviceLogo shadow" alt="">   
                         </li>
                         <hr class="m-0 mt-1 ">

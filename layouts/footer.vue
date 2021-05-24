@@ -25,14 +25,17 @@
 
                <ul class="p-0 footer">
                  <li>
-                   <nuxt-link to="#" class="text-info dropdown-item""><i class="fa fa-facebook" aria-hidden="true"></i>&ensp;Facebook</nuxt-link>
+                   <nuxt-link to="#" class="text-info dropdown-item"><i class="fa fa-facebook" aria-hidden="true"></i>&ensp;Facebook</nuxt-link>
                  </li>
                  <li>
-                   <nuxt-link to="#" class="text-info dropdown-item""><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</nuxt-link>
+                   <nuxt-link to="#" class="text-info dropdown-item"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</nuxt-link>
                  </li>
                  <li>
-                   <nuxt-link to="#" class="text-info dropdown-item""><i class="fa fa-linkedin" aria-hidden="true"></i> Linkedin</nuxt-link>
+                   <nuxt-link to="#" class="text-info dropdown-item"><i class="fa fa-linkedin" aria-hidden="true"></i> Linkedin</nuxt-link>
                  </li>
+                 <hr>
+              <a class="tmuted d text-info dropdown-item" data-toggle="modal" data-target="#modelId" href="#"><u>Terms/Conditions</u></a>
+
 
                </ul>
              </div>
@@ -51,6 +54,24 @@
         </div>
         <div class="col-12 border-top text-center bg-info text-white p-2">
           Copyright <i class="fa fa-copyright" aria-hidden="true"></i>2021 by Websoft<span class="tmuted">(websoft-pay v1)</span>
+               
+                
+          <!-- Modal -->
+          <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title text-info">Terms and Conditions</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                      </div>
+                      <div class="modal-body text-left">
+                          <terms />
+                      </div> 
+                  </div>
+              </div>
+          </div>
        </div>
        </footer>
     </div>
