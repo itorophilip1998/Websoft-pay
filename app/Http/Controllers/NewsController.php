@@ -9,28 +9,14 @@ use Illuminate\Support\Facades\Validator;
 class NewsController extends Controller
 {
     
-    public function index()
-    {
-        $data=News::all(); 
-        return response()->json(['data'=> $data],200); 
-
-    }
- 
     public function store()
     {
-       
-            Validator::make([
+
+            request()->validate([
                 'email'=>['required','email'],
              ]);
              $data= News::create(request()->all());
-            return response()->json(['message' => 'Successfully created','data'=> $data],200); 
-            
-    }
- 
-    public function destroy(News $news)
-    {
-        $news->delete();
-        return response()->json(['message' => 'Successfully deleted','data'=> $news],200);
+            return response()->json(['message' => 'Successfully created','data'=> $data],200);
 
     }
 }

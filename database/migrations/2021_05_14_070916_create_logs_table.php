@@ -15,6 +15,10 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->string('device');
+            $table->string('ip_address');
+            $table->string('location');
             $table->timestamps();
         });
     }

@@ -13,4 +13,4 @@ class Contact extends Model
         'message',
         'name',
     ];
-}
+}   
