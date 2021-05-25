@@ -64,7 +64,7 @@
                                  <div class="form-check text-white">
                                      <label class="form-check-label link">
                                      <input type="radio" @click="settings.Fpin=false" class="form-check-input link" name="pin" id="npintru" value="checkedValue" >
-                                    Forgoten Pin
+                                    Forgoten Pin 
                                    </label>
                                  </div>
                               <input type="text" v-model="settings.Opin"  v-if="!settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Transaction Pin">
