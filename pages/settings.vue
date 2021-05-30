@@ -38,54 +38,49 @@
                               <label for="loggedinSave" v-else class="form-check-label text-white link">Disabled</label>
                           </div>
                           <hr class="p-0 m-0 my-1"> 
-                          <small class="tmuted d-block">View my security logs</small> 
-                          <button type="button" @click="viewLogs=!viewLogs" class="btn btn-sm shadow text-white topup rounded-l">
+                          <small class="tmuted d-block mb-2">View my security logs</small> 
+                          <button type="button" @click="viewLogs=!viewLogs" class="btn btn-sm  shadow text-white topup rounded-l">
                               <span v-if="!viewLogs">View Logs</span>
                               <span v-else>Hide Logs</span>
                           </button> 
-                          <div class="logs bmuted py-3 pl-1 mt-2"  v-if="viewLogs">
+                          <div class="logs bmuted py-3 p-1 mt-2"  v-if="viewLogs">
                               <h6 class="border-secondary "><u>Your Security Logs</u></h6>
-                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
-                              <small class="d-block border border-secondary p-2"> #Phone4 in lagos on 3/3/20 30pm </small>
+                              <small class="d-block border border-secondary p-2 " v-for='item in logs'>
+                                 You logged-in on {{ fulltime(item.created_at) }}
+                             </small> 
                           </div>
                          </div>
                          <div class="form-group ">
                           <hr class="p-0 m-0 mt-1"> 
-                          <small class="tmuted">Change Transaction Pin/Forgot Pin</small> 
-                            <div class="form-group"> 
-                                 <div class="form-check text-white">
-                                     <label class="form-check-label link">
-                                     <input type="radio" @click="settings.Fpin=true" class="form-check-input link" name="pin" id="pintru" value="checkedValue" checked>
-                                     I have Pin
-                                   </label>
-                                 </div>
-                                 <div class="form-check text-white">
-                                     <label class="form-check-label link">
-                                     <input type="radio" @click="settings.Fpin=false" class="form-check-input link" name="pin" id="npintru" value="checkedValue" >
-                                    Forgoten Pin 
-                                   </label>
-                                 </div>
-                              <input type="text" v-model="settings.Opin"  v-if="!settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Transaction Pin">
-                              <input type="text" v-model="settings.Npin" v-if="settings.Opin.length==4 || settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="New Transaction Pin">
-                              <input type="text" v-model="settings.Cpin" v-if="settings.Npin.length==4 && settings.Opin.length==4 || settings.Fpin" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Transaction Pin"> 
-                            </div>                      
-                         </div>
+                          <small class="tmuted">Change Transaction Pin(max of 4number)</small> 
+                            <div class="form-group " v-if="viewPin">  
+                              <input type="password" v-model="settings.Opin"  v-if="!settings.Fpin" class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="Old Transaction Pin">
+                              <input type="password" v-model="settings.Npin" v-if="settings.Opin.length==4" class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="New Transaction Pin">
+                              <input type="password" v-model="settings.Cpin" v-if="settings.Npin.length==4 && settings.Opin.length==4" class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="Confirm Transaction Pin"> 
+                            </div>        
+                          <div>
+                            <button @click="viewPin=true" class="link text-white btn btn-sm shadow mt-2 topup rounded-l">Set New Pin</button>
+                            <nuxt-link to="/auth/reset-verify?pin" class="link text-white btn btn-sm shadow mt-2 topup rounded-l">Forgot Pin</nuxt-link>
+                          </div>
+                         </div> 
                          <div class="form-group">
                           <hr class="p-0 m-0 mt-1"> 
-                          <small class="tmuted">Change Password</small> 
-                            <div class="form-group"> 
-                              <input type="text" v-model="settings.Opass"  class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Old Password">
-                              <input type="text" v-model="settings.Npass" v-if="settings.Opass" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="New Password"> 
-                              <input type="text" v-model="settings.Cpass" v-if="settings.Opass && settings.Npass" class="form-control mt-1" name="" id="" aria-describedby="helpId" placeholder="Confirm Password"> 
-                              <nuxt-link to="/auth/reset-verify" class="link text-white btn btn-sm shadow mt-1">Forgot Password</nuxt-link>
-                            </div>                      
+                          <small class="tmuted">Change Password(min of 7char)</small> 
+                            <div class="form-group" v-if="viewPassword"> 
+                              <input type="password" v-model="settings.Opass"  class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="Old Password">
+                              <input type="password" v-model="settings.Npass" v-if="settings.Opass.length >= 7" class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="New Password"> 
+                              <input type="password" v-model="settings.Cpass" v-if="settings.Opass.length >= 7 && settings.Npass.length >= 7" class="form-control mt-1 p-4" name="" id="" aria-describedby="helpId" placeholder="Confirm Password"> 
+                            </div>            
+                            <div> 
+                            <button @click="viewPassword=true" class="link text-white btn btn-sm shadow mt-2 topup rounded-l">Set New Password</button>
+                            <nuxt-link to="/auth/reset-verify" class="link text-white btn btn-sm shadow mt-2 topup rounded-l">Forgot Password</nuxt-link>
+                            </div>   
                          </div>
                          <div class="theme text-white "> 
                           <hr class="p-0 m-0 my-1">  
                           <small class="tmuted d-block mb-2">Control Theme</small> 
-
+                          <!-- Theme -->
+<!-- hello -->
                              <DarkMode>
                                 <template v-slot="{ mode }">
                                     <i v-show="mode === 'light'" class="fa fa-sun-o themeIcon btn btn-sm  shadow btn-light text-muted" aria-hidden="true"> Light Theme</i>
@@ -96,7 +91,7 @@
                               </DarkMode>
                         </div>
                         <div class="form-group p-1 pb-2">
-                            <button type="button" class="btn btn-info btn-sm   topup rounded-l shadow float-right ">Save Changes</button> 
+                            <button type="button" @click="postSettings()" class="btn btn-info btn-sm   topup rounded-l shadow float-right ">Save Changes</button> 
 
                         </div>
                         </div>
@@ -113,6 +108,7 @@
 import mfooter from '@/components/mobilefooter' 
 import sidebar from '@/components/sidebar'; 
 import { DarkMode } from '@vue-a11y/dark-mode'
+import moment from 'moment'; 
 
 export default {
 //   auth:false,
@@ -126,25 +122,42 @@ export default {
    data() {
        return { 
         viewLogs:false,
+        viewPassword:false,
+        viewPin:false,
         settings:{
             loggedinNotify:false,
             loggedinSave:false,
-            tfa:false,
-            Fpin:false, 
+            tfa:false, 
             Opin:'',
             Npin:'',
             Cpin:'',
             Opass:'',
             Npass:'',   
             Cpass:'',
-        }
+        },
+        logs:[],
        }
    },
-   mounted(){
-    console.log(navigator.userAgent+"test")
+   mounted(){ 
+    this.getLogs()
    },
    methods: {
-    
+    getLogs(){
+        this.$axios.get(`/api/logs`)
+            .then((res)=> {   
+                this.logs=res.data
+            })
+    },
+    postSettings(){
+        this.$axios.post(`/api/settings`,this.settings)
+            .then((res)=> {   
+                // this.logs=res.data
+            })
+    },
+    fulltime(time) {
+            return moment(time).format(' Do MMMM YYYY, h:mm a');
+        },
+        
 }
 }
 </script>

@@ -3,12 +3,20 @@
       <loader v-if="loading"/>
       <div class="row m-0">
         <div class="col-md-5  px-lg-5 pt-md-5 mt-lg-3   rounded-lg py-4" >
-           <div class="alert alert-primary alert-dismissible fade show" role="alert" v-if="message">
+           <div class="alert alert-primary alert-dismissible fade show p-2" role="alert" v-if="email!='404' && message">
             
             <strong><i class="fa fa-bell-o text-info" aria-hidden="true"></i> Hello {{ details.email }}!</strong> We have send a reset link to your email address 📩.<br>
             <hr>
-            I didn`t receive it <button @click="verify()"  class="btn btn-sm btn-info link rounded-lg">Resent</button>
+            I didn`t receive it 
+            <button @click="verify()"  class="btn btn-sm btn-info link rounded-lg">Resent</button> 
           </div>
+
+           <div class="alert alert-danger alert-dismissible fade show p-2" role="alert" v-if="email=='404' && message">
+            
+            <strong><i class="fa fa-bell-o text-danger" aria-hidden="true"></i> Hello {{ details.email }}!</strong> We can`t find your email address 📩.<br>
+            <hr> 
+            <button @click="email='';message=false"  class="btn btn-sm btn-danger link rounded-lg">Confirm</button> 
+          </div>  
 
             <form @submit.prevent="verify()" v-if="!message">
             <h6 class="text-info">Verify Your Email</h6>    
@@ -53,16 +61,21 @@ export default {
         return {
             passwordCheckData:false,
             details:{ 
-                email:'' 
+                email:'' ,
+                pin_reset:false,
             },
             error:[],
             loading:false,
-            message:false
+            message:false,
+            email:''
 
         }
     },
     mounted() {
-       this.details.email=window.location.hash.slice(1)
+       this.details.email=(window.location.hash.slice(1))?
+       window.location.hash.slice(1):
+       "";
+       this.details.pin_reset=(window.location.search.slice(1)=="pin") ? true:false; 
     },
     methods: {
         verify()
@@ -70,9 +83,7 @@ export default {
           let email=this.details.email
           this.loading=!this.loading
             this.$router.push(`#${email}`)
-            this.$axios.post(`/api/auth/password/email`,{
-             email:email
-             })
+            this.$axios.post(`/api/auth/password/email`,this.details)
             .then((res)=> {  
              this.loading=!this.loading
              this.message=true
@@ -84,6 +95,9 @@ export default {
 
             if (error.response.status == 422) {
               this.error = error.response.data.errors; 
+            } 
+            if (error.response.status == 401) {
+              this.email = "404"; 
             } 
             })
         }

@@ -12,13 +12,13 @@
                     <ul class=" serviceUl text-center col-12  my-3 m-0 p-0">
                         <h6 class="text-dark text-center" >Decoder Available </h6> 
                         <li class="mx-md-2"  >
-                           <img src="~/assets/images/dstv2.png" class="serviceLogo2 shadow" alt="">
+                           <img src="~/assets/images/dstv2.png" class="serviceLogo2 shadow border" alt="">
                         </li>
                         <li class="mx-md-2"  >
-                           <img src="~/assets/images/gotv2.jpeg"  class="serviceLogo2 shadow"alt="">
+                           <img src="~/assets/images/gotv2.jpeg"  class="serviceLogo2 shadow border" alt="">
                         </li>
                         <li class="mx-md-2" >
-                           <img src="~/assets/images/startime.jpeg" class="serviceLogo2 shadow" alt="">
+                           <img src="~/assets/images/startime.jpeg" class="serviceLogo2 shadow border" alt="">
                         </li> 
                         <hr class="m-0 mt-1 ">
                    </ul>
@@ -42,7 +42,7 @@
                         <small class="tmuted">Decoder Number</small>
 
                                 <div class="form-group">
-                                  <input type="text"  class="form-control p-4" v-model="decoder.customer" name="" id="" aria-describedby="helpId" placeholder="Beneficiary Phone ">
+                                  <input type="text"  class="form-control p-4" v-model="decoder.customer" name="" id="" aria-describedby="helpId" placeholder="UIC">
                                   <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
                                 </div>
                            </div>

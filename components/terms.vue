@@ -1,6 +1,7 @@
 <template>
     <div class="text-dark">
          <p >
+           <!-- testted -->
                         Basically, application that has to do with money,bank or payment must be handle carefully to avoid loss of money, money hijack etc.
                         These are the list of our terms and condition:
                       </p>
